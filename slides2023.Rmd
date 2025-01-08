@@ -1,0 +1,900 @@
+---
+title: "Ekonometria wykład"
+author: "Tomasz Przechlewski"
+date: "4 listopada 2023"
+output:
+  html_document:
+    css: custom.css
+  pdf_document:
+   latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## O czym będzie
+
+Ekonometria -- nauka pomocnicza w ramach ekonomii, wykorzystująca narzędzia matematyki i statystyki 
+do badania ilościowych związków zachodzących między zjawiskami ekonomicznymi. 
+
+Większość jej metod opracowano poza ekonomią (zaadaptowane z innych nauk).
+
+Celem ekonometrii jest weryfikacja teorii ekonomicznych, przewidywanie procesów ekonomicznych 
+[oraz dostarczanie przesłanek służących sterowaniu tymi procesami.]
+Podstawowym narzędziem służącym tym celom jest model ekonometryczny.
+
+https://pl.wikipedia.org/wiki/Ekonometria
+
+Econometric models are constructed from economic data with the aid of the techniques of statistical inference.
+
+Modele ekonometryczne to modele statystyczne dotyczące danych ekonomicznych.
+
+
+## Dane (ekonomiczne)
+
+### Szeregi czasowe
+
+Badany **obiekt** jest mierzone wielokrotnie, w jednakowych odstępach czasu.
+
+Ale niekoniecznie tak jest:
+dane dzienne zwykle nie zawierają świąt. Wprawdzie miesięcy jest zawsze
+12 w roku ale luty jest 10% krótszy niż styczeń
+
+**Time series** data is data collected on single unit
+at regular intervals over time. **Cross-sectional** data is data
+collected on many  units at the same point in time
+
+Obserwacje mogą być skorelowane (zwykle są); problem
+autokorelacji
+
+Wzrost Stasia w okresie 2010--2020 to szereg czasowy
+(pozostaje do ustalenia kiedy pomiary są dokonane: raz na miesiąc,
+raz na kwartał, raz na rok)
+
+Poszczególne obserwacje są skorelowane: jak Staś mial 160cm to pewne za kwartał będzie miał 161cm a nie 190cm...
+
+### Przekrojowe
+
+Pomiar jest dokonany w jednym momencie lub okresie czasu
+ale mierzonych jest wiele obiektów.
+
+Wzrost dzieci w klasie Stasia w dniu 31 grudnia 2020 to
+dane przekrojowe
+
+Obserwacje raczej nie są skorelowane: jeżeli Jaś ma 170cm to nie wiadomo
+ile ma Staś albo Gosia...
+
+### Panelowe
+
+Połączenie szeregów i danych przekrojowych
+
+Wzrost dzieci w klasie Stasia w okresie 2010--2020
+
+
+## Etapy budowy modelu ekonometrycznego
+
+-- specyfikacja zmiennych i wybór analitycznej postaci modelu (najlepiej 
+     na podstawie jakieś teorii ekonomicznej a nie *ad hoc*),
+
+-- estymacja parametrów,
+
+-- weryfikacja modelu,
+
+-- praktyczne wykorzystanie oszacowanego modelu w tym a zwłaszcza **prognozowanie**
+
+## Zmienne losowe 
+
+Zmienna losowa: zmienna, która przybiera różne wartości z różnymi **prawdopodobieństwami**.
+
+Interesuje nas jeden szczególny przypadek mianowicie, zmienna której zbiorem wartości
+jest zbiór liczb rzeczywistych.
+
+Rozkład zmiennej losowej: przyporządkowanie każdemu przedziałowi $(a, b)$ prawdopodobieństwa, że zmienna losowa przyjmie wartość z tego przedziału $P(a ≤ X ≤ b)$;
+
+Funkcje opisujące rozkład zmiennej losowej: 
+
+* **funkcja gęstości**, 
+
+* **dystrybuanta** $F(x) = P(X \leq x)$
+
+Parametry rozkładu zmiennej losowej:
+
+* wartość oczekiwana (eee pomyśl średnia)
+
+* wariancja  (eee pomyśl wariancja, miara zmienności rozkładu)
+
+Rozkład normalny:
+
+Zmienna ma rozkład normalny o parametrach $m$, $\sigma$ co zapisujemy
+jako $X \sim N(m, \sigma)$ jeżeli jej **funkcja gęstości** określona jest
+wzorem:
+
+$$f(x) = \frac{1}{\sigma \sqrt{2\pi }} \exp^{- (x - m)^2/ (2\sigma^2)}$$
+
+![](./Standard_deviation_diagram.png)
+
+* całkowita powierzchnia pod krzywą gęstości jest równa jeden
+
+* pole pod krzywą dla przedziału $(a, b)$ to prawdopodobieństwo przyjęcia wartości z przedziału $(a, b)$
+
+* pole pod krzywą od $-\infty$ do a, to wartość dystrybuanty $F(a)$
+
+* reguła 3 sigm ($3 \sigma$)
+
+
+![](./GretlNarzedzia.png)
+
+Zadanie: jakie jest prawdopodobieństwo przyjęcia przez zmienną $N(3, 1)$ wartości
+z przedziału $(3,4)$.
+
+
+## Wnioskowanie statystyczne
+
+Zmienna X ma określony rozkład 
+
+Losujemy $n$-elementową próbę, otrzymując ciąg $x_1$, $x_2$, ... $x_n$. Gdybyśmy powtórzyli
+losowanie zapewne otrzymamy inne wartości. Można traktować różne wartości $x_1$ jako realizacje
+zmiennej $X_1$, różne wartości $x_2$ jako realizacje zmiennej $X_2$ itd...
+
+Wnioskowanie o parametrach populacji generalnej na podstawie próby opiera się na 
+funkcjach zmiennych losowych $X_1$, ... $X_n$ zwanych **statystykami z próby**
+
+Przykładem statystyki z próby jest średnia z próby: $\bar X =  \frac{1}{n}\sum_{i=1}^n x_i$
+
+
+Estymatorem $T$ nieznanego parametru $\phi$  nazywamy statystykę $T=f(X_1,...X_n)$, której
+używa się do  estymacji tego parametru
+
+Wartość estymatora dla konkretnej próby  ($x_1, ..., x_n$) nazywa się oceną.
+
+Estymator $T$ jest **nieobciążony** jeżeli $E(T) = \phi$, przy wielokrotnym
+losowaniu próby średnia z wartości przyjmowanych przez estymator jest równa  prawdziwej wartości
+szacowanego parametru.
+
+Estymator $T$ jest **zgodny** jeżeli w miarę wzrostu liczebności próby jest coraz większe
+prawdopodobieństwo, że estymator będzie przyjmować wartości coraz bliższe prawdziwej wartości
+parametru (prawdopodobieństwo dużego błędu maleje wraz ze wzrostem liczebności próby). 
+
+Estymatorem $T_1$ jest **efektywniejszy** od $T_2$ jeżeli ma mniejszą wariancję.
+
+Estymacja punktowa: na podstawie $n$-elementowej próby obliczamy ocenę parametru. Koniec.
+
+### Weryfikacja hipotez parametrycznych 
+
+Większość analiz statystycznych polega na porównaniu. W wyniku
+tego porównania otrzymujemy liczbę. 
+
+Załóżmy, że chcemy ustalić czy średni wiek w dwóch grupach ludzi jest identyczny.
+Pobieramy próby i okazuje się że średnie wynoszą $\bar x_1 = 46,1$ oraz
+$\bar x_2 = 47,2$. Różnica wynosi 1,1 lat i może być spowodowana błędem przypadkowym
+(tj. gdybyśmy wylosowali jeszcze raz dwie próby, to wynik byłby zupełnie odmienny np 46,9 vs 46,5)
+i/lub wynikać z tego, że faktycznie ludzie w drugiej grupie byli starsi. 
+
+Formalnie stawiamy **hipotezę**, że różnica średnich wynosi zero. Jest to tzw. **hipoteza zerowa**. Niezbędne jest także postawienie **hipotezy alternatywnej**,
+którą może być proste zaprzeczenie zerowej.
+Zapisuje się to następująco ($m_{1}$/$m_{2}$ oznacza odpowiednio średnie 
+w pierwszej i drugiej grupie):
+
+$H_0$: różnica średnich wieku wynosi zero ($m_{1} = m_{2}$)
+
+$H_1$: różnica średnich wieku jest różna od zera ($m_{1} \not= m_{2}$)
+
+Hipotezy sprawdzamy wykorzystując **test statystyczny** czyli zmienną losową,
+której rozkład prawdopodobieństwa zależy (jest funkcją powiedziałby matematyk)
+od wartości testowanych parametrów (w tym przypadku $m_{1}$ oraz $m_{2}$).
+Tę zmienną losową nazywa się **statystyką testu**.
+
+Nie jest chyba wielkim zaskoczeniem, że **statystyką testu** w teście różnicy średnich jest
+różnica średnich w próbie (poprawnie mówiąc różnica uwzględniająca liczebność próby
+oraz zmienność obu populacji). Całkiem **zdroworozsądkowo** możemy przyjąć, że duże wartości
+**statystyki testu** świadczą na rzecz
+hipotezy alternatywnej, natomiast małe na rzecz hipotezy zerowej. 
+
+Duża różnica pomiędzy **hipotezą** a wynikiem z próby może wynikać z tego, że:
+
+1. Pechowo trafiła nam się nietypowa próba, który zdarza się rzadko (rozkład normalny).
+
+2. Hipoteza jest fałszywa, średnie mają inną wartość niż zakładamy w hipotezie zerowej.
+
+Statystyk zawsze wybierze drugą wersję. Pozostaje tylko ustalić co to jest rzadko (dla statystyka)?
+
+Rzadko, to z prawdopodobieństwem mniejszym niż z góry ustalone małe prawdopodobieństwo
+zwane **poziomem istotności**.  Określa ono jak często
+możemy się pomylić **odrzucając hipotezę zerową, która jest prawdziwa**.
+
+Teraz wystarczy obliczyć prawdopodobieństwo wystąpienia różnicy, którą otrzymaliśmy lub jeszcze większej
+i porównać je z poziomem istotności. Jeżeli to prawdopodobieństwo jest równe lub niższe od poziomu istotności
+odrzucamy hipotezę zerową (różnica jest istotna statystycznie).
+
+Przyjmijmy przykładowo, że prawdopodobieństwo wystąpienia różnicy 1,1 lat (i większej) oszacowane
+na podstawie odpowiedniego modelu matematycznego (rozkład normalny) wynosi 0,3 
+co znaczy że coś takiego
+zdarza się względnie często – trzy razy na 10 pobranych prób.
+
+Załóżmy z kolei że, ta różnica wyniosła 3,2 lata. Prawdopodobieństwo 
+wystąpienia takiej różnicy (i większej) wynosi 0,009 co znaczy że coś takiego
+zdarza się względnie rzadko – 9 razy na tysiąc prób.
+
+Przyjmując, że możemy się mylić 5 razy na 100 w pierwszym przypadku statystyk powie,
+że nie ma podstaw do odrzucenia hipotezy $H_0$. 
+Różnica 1,1 lat wynika z przypadku. W drugim wypadku
+statystyk powie, że hipoteza jest fałszywa, bo zdarzyło się coś co nie powinno się zdarzyć.
+
+Ale jest jeszcze drugi przypadek popełnienia błędu: 
+**przyjmujemy hipotezę zerową, która jest fałszywa**. W testach
+statystycznych nie określa się prawdopodobieństwa popełnienia tego błędu, a w związku z tym nie można
+**przyjąć hipotezy zerowej** (bo nie znamy ryzyka popełnienia błędu).
+
+W konsekwencji hipotezę zerową albo się odrzuca albo **nie ma podstaw do odrzucenia**.
+Wniosek cokolwiek niekonkluzywny, ale tak jest.
+
+
+
+## Model regresji liniowej (Linear regression model; LR model)
+
+$$y_i = \beta_1 + \beta_2 x_{2i} + \beta_3 x_{3i} + \ldots + \beta_k x_{ki} + u_i$$
+
+$y$ jest określane jako zmienna zależna (*dependent variable*); 
+
+zmiennie 
+$x_1, \ldots x_k$ są określane jako zmienne niezależne albo wyjaśniające
+(*explanatory variables*)
+
+$u$ jest określany jako składnik losowy (zmienna losowa)
+
+
+
+## Model regresji liniowej z jedną zmienną objaśniającą
+
+$$y_i = \beta_1 + \beta_2 x_i + u_i$$
+
+Założenie 1:
+
+Obserwacje na zmiennej objaśniającej są ustalone (nielosowe)
+
+Założenie 2:
+
+Składniki losowe $u_i$ są niezależnymi zmiennymi losowymi:
+
+$$cov(u_i, u_j) = 0 \qquad{\rm dla:}\space i\not= j$$
+
+o jednakowych rozkładach prawdopodobieństwa. Alternatywnie:
+brak **autokorelacji**, tj. korelacja pomiędzy dwoma dowolnymi $u_i$ wynosi zero. 
+
+z wartością oczekiwaną równą zero:
+
+$$E(u_i|x) = 0$$
+oraz stałą wariancją
+
+
+$$D^2(u_i|x) = \sigma^2$$
+
+Z powyższych wynika, że funkcja regresji $y$ względem $x$, tj:
+
+
+$$\hat y_i = E(y_i | x_i) = \beta_1 + \beta_2 x_i$$
+
+$\hat y_i$ to warunkowe wartości oczekiwane zmiennej $y$.
+
+Składnik losowy można interpretować jako odchylenie (błąd pomiaru na przykład)
+od nieznanej funkcji regresji.
+
+Nieznane parametry funkcji regresji **estymuje się** za pomocą metody najmniejszych
+kwadratów (MNK albo KMNK; *least squares* albo *ordinary last squares OLS*)
+
+**Twierdzenie Gaussa-Markowa**
+
+**Estymatory** KMNK są nieobciążone i mają najmniejszą wariancję w klasie estymatorów
+liniowych (są efektywne; *efficient*)
+
+**Konwencje zapisu oraz fachowe nazewnictwo**:
+
+$x$, $y$ -- prawdziwe wartości zmiennych
+
+$\beta$ -- prawdziwe wartości parametrów równania regresji (nieznane)
+
+$\hat y$ -- teoretyczne wartości zmiennej wynikające z równania regresji
+
+$b$ -- estymatory nieznanych wartości parametrów $\beta$, czytaj: formuły
+które po podstawieniu konkretnych wartości dla $x$ i $y$ zwracają 
+**przypuszczalne** wartości $\beta$ zwane ocenami
+
+$\hat b$ -- oceny parametrów $\beta$. Estymator to funkcja (pomyśl szablon);
+ocena to realizacja funkcji, konkretna wartość liczbowa dla konkretnych
+wartości $x$ oraz $y$
+
+## Weryfikacja modelu
+
+### Ocena części części stochastycznej modelu
+
+Wariancja składnika losowego (wariancja resztowa)
+
+$$s_e^2 = \sum e_i / (N-k)$$
+
+gdzie: $e = y - \hat y$ jest resztą (*residual*); 
+
+$N$ jest liczbą obserwacji w próbie
+
+$k$ jest liczbą zmiennych objaśniających łącznie z wyrazem wolnym ($k=2$)
+
+Błąd standardowy reszt (*standard error*) albo odchylenie standardowe składnika losowego to pierwiastek kwadratowy z wariancji resztowej.
+
+Można udowodnić że $s_e^2$ jest **nieobciążonym estymatorem** wariancji $s^2$.
+
+Żmudniejsze rachunki pozwalają wywieść wzory określające 
+estymatory wariancji estymatorów $b_1$ oraz $b_2$, które oznaczamy
+jako $s^2_{b1}$ oraz $s^2_{b2}$
+
+Można wykazać że:
+
+$$(b_1 - \beta_1)/s_{b1} \qquad{\rm oraz}\qquad (b_2 - \beta_2)/ s_{b2}$$
+
+gdzie $s_{b1}$ oraz $s_{b2}$ to średnie błędy szacunku parametrów
+mają rozkład $t$-Studenta o $N-k$ stopniach swobody.
+
+### Testowanie hipotez o istotności parametrów
+
+$H_0: \beta_2 = 0$
+
+$H_1: \beta_2 \not= 0$
+
+Statystyka testu ma rozkład $t$ z $(N -2)$ stopniami swobody
+
+$t = b_2/ s_{b2}$
+
+Duże wartości $t$ świadczą przeciwko $H_0$; małe wartości
+świadczą przeciwko $H_1$
+
+Prościej jest patrzeć (na wydrukach komputerowych) na wartość
+prawdopodobieństwa zrealizowania się wartości równej $t$ i większej
+
+W programie Gretl jest to oznaczone jako **wartość p**
+
+```
+           współczynnik  błąd standardowy  t-Studenta  wartość p
+  ---------------------------------------------------------------
+  const      34404,7         12367,1          2,782      0,0077   ***
+  time       174,415           413,926        0,4214     0,6753  
+```
+
+Jeżeli $p < 0,05$ to $H_0$ należy odrzucić (oczekiwany rezultat);
+w powyższym przykładzie z żalem możemy powiedzieć że nie ma podstaw
+do odrzucenia $H_0$ czyli model jest do bani ponieważ
+jeżeli $\beta_2 = 0$ to $y = \beta_1$ czyli nie ma zależności pomiędzy $x$ a $y$
+w sensie statystycznym.
+
+### Analiza wariancji
+
+Reszta (dla przypomnienia)  $e = y - \hat y$, albo $y = \hat y + e$
+
+Odejmując obustronnie $\bar y$, podnosząc do kwadratu oraz sumując otrzymamy:
+
+$$\sum (y - \bar y)^2 = \sum (\hat y - \bar y)^2 + \sum e^2$$
+
+co oznaczamy jako
+
+$${\rm OSK} = {\rm WSK} + {\rm RSK}$$
+
+gdzie OSK = ogólna suma kwadratów; WSK = wyjaśniona suma kwadratów;
+RSK = resztowa suma kwadratów
+
+Dzieląc obustronnie przez OSK
+
+$$1 = {\rm WSK}/{\rm OSK} + {\rm RSK}/{\rm OSK}$$
+
+Wielkość $R^2 = WSK/OSK$ nazywamy **współczynnikiem determinacji**;
+
+Wielkość $\phi^2 = RSK/OSK$ nazywamy **współczynnikiem zbieżności**.
+
+Interpretacja: % zmienności zmiennej $y$ objaśnianej przez model ($R^2$)
+
+### Test F
+
+$H_0: \beta_2 = \beta_3 = \ldots = \beta_k = 0$
+
+$H_1:$ co najmiej jeden współczynnik jest różny od zera
+
+Statystyka testu
+
+$$F = (WSK/(N-k) ) / ( RSK/( N-k))$$
+
+Małe wartości **p** świadczą (jak zwykle) przeciwko $H_0$
+(na czym nam zależy); W programie Gretl wygląda to jakoś tak:
+
+```
+F(1, 49)                0,177551   Wartość p dla testu F   0,675329
+```
+
+Dla przypadku $k=2$ test $t$ oraz $F$ dają ten sam wynik (co ilustruje
+powyższy przykład)
+
+@liveDemo@ dane przekrojowe
+
+Konsumpcja a dochody
+
+Podobno Keynes, ale zależność jest w miarę oczywista:
+
+$$K = a + b \cdot  D$$
+https://en.wikipedia.org/wiki/Consumption_function
+Consumption vs Disposable Income (Dochód rozporządzalny;
+https://pl.wikipedia.org/wiki/Doch%C3%B3d_rozporz%C4%85dzalny)
+
+
+parametr $b$ jest być interpretowany jako **krańcowa skłonność do
+konsumpcji**. Pod tą szumną nazwą kryje się udział wydatków na konsumpcję
+w jednostce dochodów; parametr ten powinien być w przedziale 0--1
+Parametr ten ma zdroworosądkową interpretację pn ile dochodu wydamy
+
+Weryfikacja: potrzebujemy konsumpcji i dochodów
+
+Na poziomie indywidualnym (mikroekonomicznym) → Badania budżetów domowych
+
+Na poziomie makroekonomicznym → Bank Danych Lokalnych GUS
+https://bdl.stat.gov.pl/bdl/metadane/cechy/1870
+(przeciętne miesięczne wydatki na 1 osobę/przeciętny dochód rozporządzalny)
+
+@liveDemo@ szeregi czasowe
+
+### Wybór modelu
+
+Skorygowany współczynnik determinacji (o liczbę zmiennych objaśniających):
+
+$$\bar R^2 = 1 - (1 -R^2) (N-1)/(N-k)$$
+
+Kryteria minimum:
+istotne wartości parametrów modelu + większa wartość $\bar R^2$
+
+**Istotna uwaga**: Comparing R-squares only makes sense when you don't
+change the dependent variable: the proportion of variance explained
+depends both the how much you explain and on how much variance you had
+to begin with. A non-linear transformation like taking the logarithm
+will influence the variance of your dependent variable, making the
+R-squares of the linear model and the log-log model incomparable.
+
+### Autokorelacja składnika losowego
+
+Modele wykorzystujące szeregi czasowe są podatne na występowanie
+**autokorelacji** składnika losowego.
+
+Do wykrywania autokorelacji można wykorzystać: wykres reszt modelu,
+test Durbina-Watsona oraz test Breutscha-Godfreya
+
+
+Składniki losowe pozostają w zależności **autoregresyjnej** pierwszego rzędu:
+
+$\xi_i = \rho \xi_{i-1} + \mu_i$
+
+gdzie: $\mu_i$ składnik czysto losowy; $\rho$ współczynnik autokorelacji
+$\rho = {\rm cov} (\xi_i, \xi_{i-1})/ ({\rm var}(\xi_i) {\rm var}\xi_{i-1})$
+
+**Test Durbina-Watsona (DW)** weryfikuje hipotezę o nieistotności  autokorelacji
+pierwszego rzędu:
+
+$H_0:$ $\rho=0$
+
+$H_1:$ $\rho > 0$ 
+
+Statystyka testu
+
+$$d = \frac{\sum_{t=2}^n (e_t - e_{t-1})^2}{ \sum_{t=1}^n e_t^2 }$$
+
+jeżeli $d > 2$ dokonujemy przekształcenia $d' = 4 -d$ a hipoteza
+alternatywna ma postać (autokorelacja ujemna):
+
+$H_1':$ $\rho < 0$
+
+Wartość $d$ (albo $d'$) porównuje się z **wartościami krytycznymi**
+$d_l$ oraz $d_u$ (*upper/lower*):
+
+Jeżeli $d < d_l$ $H_0$ odrzucamy; występuje autokorelacja składnika losowego
+
+Jeżeli $d > d_u$ nie ma podstaw do odrzucenia $H_0$
+
+Jeżeli $d_l <d < d_u$ nie można podjąć żadnej decyzji; wynik nierozstrzygnięty
+
+W przypadku weryfikacji modelu regresji pożądany jest wynik $d < d_l$ oczywiście
+
+Program Gretl dla test DW nie drukuje $p$.
+
+
+**Test Breutscha-Godfreya**
+weryfikuje występowanie autokorelacji wyższych rzędów, przy założeniu
+że  składnik losowy można opisać następujęcym równaniem:
+
+$$\xi_t = \rho_1 \xi_{t-1} + \rho_2 \xi_{t-2} + \cdots + \rho_p \xi_{t-p} + \nu_t$$
+$H_0: \rho_1 = \rho_2 = \cdots = \rho_p = 0$
+
+Wyniki estymacji modelu uzyskuje się uruchamiając Testy➔testy autokorelacji.
+Należy podać  rząd opóźnienia $p$. Nieistotność  oszacowanych prarametrów
+świadczy o niewystępowaniu autokorelacji.
+
+Weryfikacja hipotezy jest oparta na wartość statystyki oznaczonej
+zwykle jako LM (a w gretlu TR^2). 
+Gretl podaje wartość $p$ dla tej statystyki, jeżeli jest ona mniejsza
+od przyjętego poziomu istotności, wykle $0,05$, to $H_0$ nalezy odrzucić.
+
+Test BW ma też alternatywną statystykę testu oznaczoną w Gretlu jako LMF.
+Podobnie jak dla LM, odrzucamy $H_0$ jeżeli wartość $p$ jest mniejsza
+od przyjętego poziomu istotności.
+
+Przykładowy wydruk wygląda jakoś tak:
+
+```
+Wsp. determ. R-kwadrat = 0,871434
+
+Statystyka testu: LMF = 6,161940,
+z wartością p = P(F(11,10) > 6,16194) = 0,00382
+
+Statystyka testu: TR^2 = 20,042993,
+z wartością p = P(Chi-kwadrat(11) > 20,043) = 0,0448
+```
+
+Wysoka wartość $R^2$ oraz niskie wartości $p$ dla statystyk `TR2`
+oraz `LMF` wskazują na występowanie autokorelacji składnika losowego...
+
+### Ocena normalności rozkładu składnika resztowego
+
+Test weryfikuje hipotezę o normalności rozkładu resztowego
+
+$H_0: u \sim N$
+
+$H_1: u \not\sim N$
+
+Do tego celu opracowano wiele testów w tym test Jarque'a-Bery
+oraz Doornika-Hansena.
+
+Niskie wartości $p$ (*prob*) świadczą na rzecz hipotezy alternatywnej
+
+W programie Gretl (nowe wersje) test Doornika-Hansena jest
+dostępny w menu `Testy/test normalności rozkładu reszt`
+
+
+### Ocena jednorodności wariancji składnika resztowego
+
+Test White'a (heteroskedastyczności) weryfikuje hipotezę
+o występowaniu niejednorodności wariancji składnika losowego
+
+$H_0:$ wariancja jest jednorodna
+
+Niskie wartości $p$ (*prob*) świadczą na rzecz hipotezy alternatywnej
+
+### Ocena liniowości postaci analitycznej 
+
+Czy model potęgowy lub wielomianowy daje lepsze rezultaty niż
+liniowy (test nieliniowości w programie Gretl)
+
+Niskie wartości $p$ (*prob*) świadczą na rzecz hipotezy alternatywnej
+
+Test RESET
+
+Czy to liniowa postać modelu (względem funkcji kwadratowej lub sześciennej)
+jest najlepszym możliwym do wybrania modelem.
+
+Niskie wartości $p$ (*prob*) świadczą na rzecz hipotezy alternatywnej
+
+### Współliniowość zmiennych objaśniających
+
+Współliniowość zmiennych jest cechą nieporządaną: oszacowane
+błędy standardowe ocen paramatrów ($s_b$) mają duże wartości,
+w rezultacie $b/S_b$ ma małe wartości a test na istotność parametru
+wykazuje że jest on **nieistotny**.
+
+Do oceny współliniowości wykorzystuje się miarę VIF (**variance inflaction
+factor**):
+
+$$VIF_j = 1/(1 - R^2_j)$$
+
+gdzie $R^2_j$ jest współczynnikiem korelacji wielorakiej pomiędzy
+zmienną $x_j$ a pozostałymi zmiennymi. Wartość $VIF_J > 10$
+oznacza nadmierną współliniowość.
+
+Zwykle taką nadmiernie współliniową zmienną należy usunąć z modelu
+
+
+## Przykład: determinanty wielkości wynagrodzenia [w USA; Gujarati]
+
+Zbiór danych `Wages.csv`
+
+wage = female + nonwhite + union + edu + exper
+
+gdzie: 
+
+wage = hourly wage in USD; 
+
+gender = 1 if female ; 
+
+nonwhite = 1 if nonwhite;
+
+union = 1 if in union ; 
+
+edu = education in yrs ; 
+
+exper = experience (staż pracy)
+
+![](./Wages-model-1.png){width=80%}
+![](./Wages-model-2.png){width=80%}
+
+
+## Nieliniowe postacie analityczne
+
+### Regresja potęgowa
+
+$$Y = \beta_1 X_2^{\beta_2} X_3^{\beta_3}\ldots$$
+
+### Cobb-Douglas production function
+
+$$P = \beta_1 L^{\beta_2} K^{\beta_3}$$
+
+gdzie: 
+
+$P$ -- wielkość produkcji; 
+
+$L$ -- nakłady pracy (*labour input*);
+
+$K$ -- nakłady kapitałowe (*capital*)
+
+Po obustronnym zlogarytmowaniu otrzymujemy:
+
+$$\ln P = \ln \beta_1 + \beta_2 \ln L + \beta_3 \ln K$$
+
+W modelu potęgowym współczynniki nachylenia są interpretowane jako
+**elastyczności**: Elastyczność to % zmiana jednej zmiennej podzielona
+przez % zmianę drugiej zmiennej. Albo: procentowa zmiana zmiennej $x$
+skutkuje $\beta$% zmianą zmiennej $y$
+
+W modelu C-D mamy dwie zmienne objaśniające więc mówimy o cząstkowych
+elastycznościach (*partial elasticities*): $\beta_2$ współczynnik
+elastyczności produkcji ze względu na nakłady pracy, przy założeniu stałych
+nakładów kapitałowych. Albo: procentowa zmiana produkcji przy
+jednoprocentowej zmianie w nakładach pracy *ceteris paribus*
+
+W modelu C-D suma współczynników nachylenia jest interpretowania
+jako **efekt skali produkcji** (*returns to scale*):
+jeżeli ESP = 1 to stała skala; jeżeli EPS < 1 malejąca skala;
+jeżeli EPS > 1 rosnąca skala.
+
+### Przykład Cobb-Douglas function for USA 2005 [Gujarati]
+
+@liveDemo@ `CDdata.csv`
+
+
+### Przykład krzywa Engla dla światowej konsumpcji mięsa
+
+consumption is under-proportional with income. This
+can be formally descibed by the power function with parameter $b_1$
+which can be interpreted as an elasticity
+
+$$M = b_0 {\rm GDP}^{b_1}$$
+@liveDemo@ `meat_and_gni.csv`
+
+### Regresja wykładnicza
+
+Najczęściej stosowana jako model tendencji rozwojowej (trendu), patrz przykład.
+
+Jeżeli $$Y = a_1 a_2^{x_2} a_3^{x_3}\ldots$$
+
+to po wykonaniu niezbędnych przekształceń
+
+$$\ln Y = \ln a_1 + \ln a_2 x_2 + \ln a_3 x_3 \ldots$$
+
+### Modele trendu
+
+$$Y = a_1 + a_2 t + u$$
+
+Współczynnik $a_2$ jest interpretowany jako przeciętna zmiana $y$
+na jednostkę czasu. Jeżeli jednostką $t$ jest rok to $a_2$ oznacza
+przeciętną zmianę roczną
+
+### Przykład PKB realny (*real GDP*) dla USA 1960--2007 [Gujarati]
+
+@liveDemo@ `GDP_US.csv`
+
+![](./Gujarati_GDPUS_trend.png)
+
+
+
+### Model wzrostu
+
+$$Y = a_1 a_2^t$$
+
+lub po wykonaniu niezbędnych przekształceń
+
+$$\ln Y = \ln a_1 + \ln a_2 t + u$$
+
+### Przykład
+
+Formula of Compound Amount (procent składany):
+
+Kwota końcowa = kwota początkowa $\times$ (1+wysokość oprocentowania) ^ liczba okresów
+
+$$GDP_t = GDP_0 (1 + r)^t$$
+
+po obustronnym zlogarytmowaniu:
+
+$$\ln GDP_t = \ln GDP_0 + t \ln ( 1 + r)$$
+
+podstawiając: $B_1 = \ln GDP_0$ oraz $B_2 = \ln (1 +r)$, otrzymujemy
+ostatecznie:
+
+$$\ln GDP_t = B_1 + B_2 t + u$$
+
+Współczynnik $B_2$ pomnożony przez 100 jest interpretowany następująco:
+jednostkowa zmiana $x$ skutkuje $B_2 \times 100$% zmianą $y$.
+
+Roczna przeciętna stopa wzrostu wynosi $B_2 \times 100$%.
+
+$B_2 \times 100$% jest także określany jako półelastyczność (*semielasticity*)
+
+## Przykład PKB realny (*real GDP*) dla USA 1960--2007 [Gujarati]
+
+@liveDemo@ `GDP_US.csv`
+
+![](./Gujarati_GDPUS.png)
+
+W okresie 1960--2007 realny GDP USA wzrastał o 3,15% rocznie. Ta stopa wzrostu
+jest statystycznie istotna. $R^2$ modelu wynosi 97,2%. 
+
+An R-square comparison is meaningful only if the dependent variable is
+the same for both models. So the R-square from the linear model cannot
+be compared with the R-square from the log-log model.
+
+For the log-log model, the way to proceed is to obtain the antilog
+predicted values and compute the R-square between the antilog of the
+observed and predicted values. This R-square can then be compared with
+the R-square obtained from OLS estimation of the linear model
+
+### Regresja wielomianowa 
+
+### EKC
+
+Teorię/hipoteza stworzoną przez Simona Kuznetsa, zgodnie z którą
+wraz z postępującym rozwojem kraju najpierw nierówności społeczne rosną,
+a potem spadają. Odwrócone U.
+
+Środowiskowa krzywa Kuznetsa (EKC) postuluje podobną zależność pomiędzy
+rozwojem a degradacją środowiska naturalnego.
+
+$$CO^2 = a_0 + a_1 PKB + a_2 PKB^2$$
+
+### Przykład: konsumpcja mięsa na świecie
+
+$$M = a_0 + a_1 PKB + a_2 PKB^2$$
+
+Aby potwierdzić hipotezę EKC $a_2 < 0$
+
+Można obliczyć wielkość $PKB$, dla której $M$ osiągnie wartość maksimum;
+wynosi ona $PKB_{\max} = a_1 / (-2 \cdot a_2)$
+
+ta maksymalna wartość $M$ wynosi:
+$a_0 + a_1 * PKB_{\max} + a_2 * PKB_{\max}^2$
+
+@liveDemo@ `meat_and_gni.csv`
+
+## Predykcja ekonometryczna
+
+### Uwagi wstępne
+
+Przewidywanie co będzie. Anglicy odróżniają *forecasting* (**prognozowanie**)
+or *predicting* (**przewidywanie**); w sumie obie rzeczy dotyczą przeszłości ale
+istnieje subtelna różnica:
+
+jaka będzie wielkość GDP w przyszłym roku (**forecasting**)
+
+jaka będzie wielkość produkcji jeżeli zwiększymy nakłady pracy o $x$ jednostek (**predicting**)
+
+### Prognozowanie w modelu regresji
+
+Załóżmy, że:
+
+$$y_i = \beta_1 + \beta_2 x_{2i} + \beta_3 x{3i} + \ldots + \beta_k x_{ki} + u_i$$
+
+prognozowana wartość:
+
+$$y^* = b_1 + b_2 x_{2}^* + b_3 x{3}^* + \ldots + b_k x_{k}^* + u^*$$
+
+gdzie: $x_{2}^*\ldots x_{k}^*$ jest wektorem wartości przyjmowanych
+przez zmienne objaśniające, a $u^*$ jest składnikiem losowym
+**o takim samym rozkładzie jak składniki losowe z próby** ($N(0, \sigma)$)
+
+Prognozy dokonujemy obliczając
+
+$$\hat y^* = \hat b_1 + \hat b_2 x_{2}^* + \hat b_3 x{3}^* + \ldots + \hat b_k x_{k}^*$$
+
+gdzie wartości $\hat b_1, \ldots, \hat b_k$ oznaczają oceny parametrów
+
+$\hat y^*$ nazywamy prognozą punktową (w odróżnieniu od przedziałowej o czym za chwilę)
+
+Wówczas błąd prognozy wynosi:
+
+$$e^* = y^* - \hat y^*$$
+
+Oczywiście wartość $y^*$ jest nieznana, ale można udowodnić, że
+
+$$E(e^*) = 0$$
+
+(średnia wartość błędu wynosi zero)
+
+oraz, że  wariancja jest równa:
+
+$${\rm var} (e^*) = {\rm var} (\hat y^*) + {\rm var}(u) = {\rm var} (\hat y^*) + \sigma$$
+
+gdzie $\sigma = {\rm var}(u)$ (dla zwięzłości)
+
+Wariancja błędu prognozy jest więc **większa od wariancji składnika losowego**. Prognozujemy
+z błędem ${\rm var} (\hat y^*)$ plus zjawisko ma charakter losowy także
+w przyszłości $\sigma = \sqrt{{\rm var}(u)}$. Te dwa rodzaje błędów się sumują...
+
+Ponieważ z założenia $u^*$ jest składnikiem losowym
+**o takim samym rozkładzie jak składniki losowe z próby**
+$u^*$, zatem $\sigma$jest jedynym nieznanym parametrem
+(inaczej mówiąc ${\rm var} (\hat y^*)$ jest **jakąś** funkcją $\sigma$; jaką można to analitycznie
+ustalić ale nie będziemy tego robić)
+
+Wstawiając zamiast $\sigma$ jego estymator $s_e^2$
+(zwany **błędem standardowy reszt** albo
+**odchyleniem standardowym składnika losowego** -- patrz wyżej)
+otrzymujemy
+nieobciążony estymator wariancji błędu prognozy ${\rm var} (e^*) = s^{*2}$
+
+Pierwiastek kwadratowy z wariancji błędu prognozy $s^*$ nosi nazwę **średniego błędu predykcji**.
+
+Iterpretacja: ile średnio wyznaczona prognoza może się odchylać od wartości rzeczywistych
+zmiennej prognozowanej.
+
+Ponieważ $u$ ma rozkład $N(0, \sigma)$, to m.in.duże odchylenia są mniej prawdopodobne niż małe
+można zatem wyznaczyć dwie wartości:
+
+$$\hat y^*_l < y < \hat y^*_u$$
+
+pomiędzy którymi -- z zadaną dokładnością -- znajduje się prognozowana wartość.
+Ta zadana
+dokładość jest określona prawdopodobieństwem zwykle 0,95 lub 0,99.
+
+Taka konstrukcja nazywa się **prognozą przedziałową**.
+
+**Wniosek**:
+jeżeli model jest słabo dopasowany to prognoza jest jeszcze gorsza a prognoza przedziałowa
+może być mało przydatna, typu 20 plus/minus 30.
+
+### Miary dokładności predycji
+
+Niewątpliwie **średniego błędu predykcji** jest miarą jej dokładności. Im mniejszy tym lepiej.
+
+**Średni błąd predykcji**  należy do miar dokładności predykcji **ex-ante**, tj. wyliczanych
+bez znajomości prawdziwych wartości (prognoza się jeszcze nie zrealizowała)
+
+Oprócz miary **ex-ante** są miary **ex-post** tj. takie w których prognozy porównuje
+się z wartościami zrealizowanymi.
+
+Żeby te wartości zrealizowane mieć to albo trzeba poczekać :-) Albo dokonać następującego tricku:
+dzielimy dane na dwie części zwane zwykle zbiorem uczącym (*training set*) i zbiorem testowym
+(*test set*)
+
+Na podstawie **zbioru uczącego** szacujemy model.
+
+Na podstawie **zbioru testowego** sprawdzamy właściwości predyktywne modelu.
+
+Ponieważ dysponujemy prognozami oraz realizacjami to możliwe jest oszacowanie
+jakości prognoz. Są to tego stosowane następujące miary:
+
+Średniokwadratowy błąd prognozy (albo średni błąd kwadratowy;
+MSE z angielska tj *mean square error*)
+
+$${\rm MSE} = \frac{1}{n^*}\cdot \sum_{i=1}^n (y_i - \hat y_i)^2$$
+
+Pierwiastek MSE zwany RMSE (root MSE):
+
+$${\rm RMSE} = \sqrt{ {\rm MSE }}$$
+
+Średni błąd bezwzględny (*Mean Absolute Error*; MAD):
+
+$${\rm MAD} = \frac{1}{n^*}\cdot \sum_{i=1}^n |y_i - \hat y_i|$$
+
+Interpretacja: ile średnio wyznaczona prognoza odchylała się od wartości rzeczywistych
+zmiennej prognozowanej (było **może się odchylać** dla miar ex-ante)
+
+@liveDemo@ Gujarati PKB (model trendu)
+
+![](./Gujarati_GDPUS_prognoza.png)
+
+## Koniec

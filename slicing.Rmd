@@ -1,0 +1,503 @@
+---
+title: 'Mini wprowadzenie do R'
+author:
+- name: Tomasz Przechlewski
+  email: t.plata-przechlewski@psw.kwidzyn.edu.pl
+  affiliation: Powiślańska Szkoła Wyższa (Kwidzyn/Poland)
+date: "Jan. 2021"
+output:
+  html_document:
+    includes:
+      before_body: misc_hdr.html
+description: (c) Tomasz Przechlewski / CC-BY license
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Uruchamianie
+
+W najprostszy możliwy sposób
+
+Rscript SKRYPT
+
+patrz także dalej punkt **Wiersz poleceń**.
+
+
+## Typy danych
+
+Cztery typy jak w każdym języku: numeryczny (liczby), znakowy (napisy),
+zespolony (liczby urojone) oraz logiczny (`T`/`F`)
+
+Polecenie przypisania wartości
+
+```
+x <- v
+```
+
+### Sprawdzenie typu/konwersja
+
+```
+x <- 5
+str(x)
+num 5
+x <- "5" ## lub '5'
+str(x)
+chr "5"
+##
+y <- as.numeric(x)+1
+print (y) ## albo y po prostu
+
+## as.character as.logical
+```
+
+### Operacje a typach podstawowych:
+
+liczby: arytmetyczne (jak w szkole)
+
+napisy: `paste(x, y, z...)` łączenie napisów; `nchar(x)` liczba znaków
+w napisie `x`
+
+## Struktury danych
+
+Wektory, macierze, ramki 
+
+## Wektory
+
+Utworzenie wektora
+  vector <- c(c1, c2, ...)
+
+Indeksowanie (slicing)
+
+```
+v[i] where i is a vector of integers (indices of vector elements)
+
+v[c(1, 2, 3)]
+v[1:3]
+v[seq(1, 6, by=2)]
+```
+
+Wektory logiczne  (*logical vectors and indexing*)
+
+Wektory logiczne zawierają wartości logiczne (T/F)
+
+Indeksowanie wektora za pomocą wektora logicznego
+skutkuje utworzeniem wektora złożonego z elementów
+dla których warościami wektora logicznego było `T`:
+
+```
+lv <- c (T, F, F, T)
+v <- c (1, 2, 3, 4)
+v[lv] # returns (1,4)
+```
+
+Tworzenie wektora logicznego
+
+Usually by some logical statment involving existing vectors
+
+```    
+age < 24
+```
+
+if age is vector of numbers returns logical vector
+which nth element is equal T if nth element of age is less than 24
+and F otherwise;
+    
+logical operations: & and; | or; %in% in the set
+
+```
+age > 24 & age < 55
+```
+
+### Additional Logical functions
+
+```
+is.na(x) which element is NA
+which(x) Which values in x are TRUE?
+
+sex <- c("m", "m", "f", "m", "f", "f")
+# Which values of sex are m?
+which(sex == "m")
+## [1] 1 2 4
+## but
+sex(sex == "m")
+[1] "m" "m" "m"
+```
+
+###  Changing values of a vector
+
+```
+v[i] <- newValue
+
+##i maybe vector or logical vector
+
+v[6:10] <- 0
+v[c(1,7,9)] <- (1,2,3)
+
+x = seq(1,5)
+x[c(1,4,5)] <- c(0, -1, -2)
+x
+[1] 0  2  3 -1 -2
+```
+
+## Data Frames
+
+### Create DF
+
+To create a dataframe from vectors, use the data.frame()
+which creates a dataframe from named columns:
+
+```
+df <- data.frame("c1" = c(...), "c2" = c(...), ...)
+```
+
+`names(df)` -- return colum names
+
+`df$c` -- returns column c
+
+`df[c]` -- returns colums (c is character vector of column names) ie
+  `df[c("c1", "c5")]`
+
+adding columns: `df$newCol <- c(...)` creates new column newCol 
+renaming column names:
+
+```
+names(df)[1] <- "newName" ## change column one name to newName
+
+##better way:
+names(df)[names(df) == "someName"] <- "newName"
+
+in general: 
+
+names(df)[c(1,3)] <- c('newC1', 'newC2')
+```
+
+
+### Slicing with [, ]
+
+Just like vectors, you can access specific data in dataframes using
+brackets. But now, instead of just using one indexing vector, we use
+two indexing vectors: one for the rows and one for the columns. To do
+this, use the notation data[rows, cols], where rows and columns are
+vectors of integers.
+
+if rows or cols blank then = all rows / all cols, ie df [r, ] or df[, c]
+
+`n:m` sequence from n to m
+`c(n,m)` vector of two elements n,m
+
+### Slicing with logical vectors
+
+Indexing dataframes with logical vectors is almost identical to
+indexing single vectors. First, we create a logical vector containing
+only TRUE and FALSE values. Next, we index a dataframe (typically the
+rows) using the logical vector to return only values for which the
+logical vector is TRUE.
+
+```
+df[lv, ]
+```
+
+### Konwersja do ramki
+
+`is.data.frame(x)` zwraca `T` jeżeli x jest ramką
+
+`as.data.frame` konwersja do ramki (jeżeli to jest wykonalne)
+
+```
+x <- "Silly example"
+as.data.frame(x)
+             x
+1 Silly example
+ is.data.frame(x)
+[1] FALSE
+## nie zamienił
+```
+
+## Pobranie danych z pliku CSV
+
+Najprostsza postać jest następująca (opcja na.strings,
+skrócona do na.string określa jaki napis oznacza NA):
+```
+df <- read.csv(PLIK.csv, sep = ';', dec = ",",  
+  header=T, na.string="NA");
+
+## albo
+
+df <- read.csv(PLIK.csv, sep = ';', dec = ",", header=F
+col.names = c('var1', 'var2'),
+colClasses = c('factor', 'factor', 'character', 'character', 'numeric', 'numeric'));
+```
+col.names (zamiast domyślnych nazw); colClasses typy
+danych dla poszczególnych kolumn.
+
+
+## Strukury języka
+
+operatorem przypisania jest `<-` (można używać `=`)
+
+znak `#` rozpoczyna komentarz
+
+wyrażenia oddzielamy średnikiem, średnik na końcu wiersza jest opcjonalny
+
+nazwa może teoretycznie składać się z dowolnego znaku (nawet odstępu):
+
+```
+## normalnie ` (backtick) jest zbędny
+`qq` <- "A ku ku"
+## ale jeżeli nazwa jest dziwna
+`qq 0` <- 0
+` qq 1` < " 1"
+## potem na przykład
+print(` qq 1`)
+```
+Oczywiście nie ma powodu do utrudniania sobie życia dziwnymi nazwami
+
+
+### Instrukcja warunkowa
+
+Jak w każdym języku programowania w R też jest instrukcja warunkowa:
+
+```
+if (warunek) wyrażenie1 else wyrażenie2
+## przykłady
+if (x <5) print ('Mniej niż 5')
+if (x <= 5) { print '5 lub mniej'} else {print '6' }
+ 
+```
+
+Zwektoryzowane `if`: `test`/`yes`/`no` to wektory o równej liczbie
+elementów (ściśle wyrażenia których wartość to wektor):
+
+```
+ifelse(test, yes, no)
+```
+Jeżeli (dla każdego elementu if) `test=T` to wartością jest odpowiedni
+element `yes` lub `no` w przypadku przeciwnym:
+
+```
+## silly example:
+test <- c(F, F)
+a <- c('1', '2')
+b <- c(0, 0)
+ifelse(test, a, b)
+[1] 0 0
+```
+
+### Pętla
+
+Mało używana (bo zamiast należy operować na wektorach) ale jest:
+
+```
+for (v in sequence) { ... }
+## Przykład
+for (i in 1:10) { print(i) }
+cc <- c(1,2,3)
+for (c in cc ) { print (c *c)}
+
+## Można też tak
+while (test) { ... }
+## Przykład (tylko dwa pierwsze)
+c <- 1; while (c < length(cc)) {print (cc[c]); c=c+1 }
+```
+
+### Funkcje
+
+
+
+```
+function_name <- function(args) { body }
+```
+
+## Pakiety
+
+Pakiety rozszerzają funkcjonalność systemu:
+
+```
+library("pakiet")
+
+## instalowanie pakietu/pakietów
+install.packages(c(p1, p2, p3))
+```
+
+
+## Data wrangling (dplyr/tidy)
+
+Przekształcanie danych ze szczególnym uwzględnieniem ramek
+(cóś jak **pivot table** tylko że dużo lepsze)
+
+### dplyr
+
+`%>%` operator potoku (ekwiwalent `|` dla znających system Unix/Linuks;
+dla innych operator łączący funkcje transformacji danych)
+
+bardziej formalnie: przekazuje obiekt po lewej do funkcji po prawej jako jej pierwszy argument
+(zdefiniowany w pakiecie `dplyr`)
+
+
+```
+## typowe użycie
+## zamiast ndf <- funkcja(df)
+ndf <- df %>% funkcja() 
+```
+Poniżej zakładamy wykorzystanie operatora `%>%`
+więc pomijamy ramkę danych w przykładowych wywołaniach opisywanych funkcji
+
+`group_by(cols)` zwraca pogrupowaną ramkę (wg wartości kolumn 
+podanych jako wektor `cols`)
+
+```
+group_by(c5, c9)
+```
+
+`arrange(cols)` sortuje wg `cols` (jeżeli odwrotny porządek użyj desc())
+
+```
+arrange(c1, desc(c3))
+```
+
+`filter(warunek)`  zwraca wiersze ramki dla których `warunek=T`
+
+```
+## opertor c %in% cc zwraca T jeżeli cc zawiera c
+filter(c1 < 5 & c5 %in% cc )
+## przykład
+kraje <- c('PL', 'CS', 'DE')
+## tylko wiersze dla PL/CS/DE
+filter(kraj %in kraje)
+```
+
+`distinct()` usuwa duplikaty wierszy; co do zasady ramka raczej nie ma duplikatów
+ale takowe mogą się pojawić w rezultacie transformacji
+
+```
+## wszystkie wartości kolumny kraje
+select(kraj) %>% distinct()
+
+```
+
+`mutate(c1, c2, c3)` oblicza nowe kolumny ramki
+
+```
+## wartość kumulowana nc oraz kwadrat t
+ndf <- df %>% mutate(snc = cumsum(nc), sqt = t*t) 
+```
+
+
+`summarise(c1, c2, c3)` oblicza wartości sumaryczne dla
+kolumn; działa w połączeniu z `group_by`
+
+```
+## ramka zawiera dane nt liczby zakażeń (cases)
+## wg województw (woj) oraz tygodni (week)
+##
+## łączna liczba zakażeń wg tygodni
+group_by(week) %>% summarise(cases = sum(cases))
+
+## albo średnia wg woj zarażeń/tydzień
+group_by(woj) %>% summarise(m= mean(cases))
+```
+
+ważniejsze funkcje sumaryczne: `mean`, `sum`, `median`, `first`, `last`, 
+`n` (liczba wierszy)
+
+`select(cols)` zwraca ramkę zawierającą kolumny `cols`
+
+```
+## tylko kraj i pop
+select(kraj, pop)
+```
+
+`left_join(x, y, by=c)` złącz x z y według wspólnej
+kolmny c (c może być wektorem kilku kolumn)
+
+```
+z <- left_join(x, y, by="c")
+## jeżeli wspólna kolumna ma inną nazwę:
+z <- left_join(x, y, by=c("c"="d"))
+## może być złączenie na wielu kolumnach
+z <- left_join(x, y, by=c("c"="d", "e"="f"))
+
+```
+
+`z <- bind_rows(x, y)` połącz ramki `x` oraz `y` (dołącz wiersze `y` do `x`)
+
+
+### tidy
+
+Tylko dwie funkcje ale o fundamentalnej przydatności:
+
+`pivot_longer (cols, name_to=n, values_to=v)` zawartość kolumn cols (wektor nazw)
+zamienia na parę kolumn w taki sposób że nazwy kolumny stają się wartościami
+kolumny n a wartości z tych kolumn stają się wartościami kolumny `v`; w efekcie
+ramka zmienia wymiary i staje się dłuższa (stąd *longer*).
+
+Przykładowo jeżeli kolumna pl zawiera dane nt zakażeń w PL,
+kolumna cs w CS, a kolumna de w DE, to można zrobić taki myk:
+
+```
+ndf <- df %>%
+pivot_longer(cols = c(c(pl, cs, de), 
+   names_to = "kraj", values_to = "zakazenia")
+```
+
+`ndf` będzie zawierało dwie kolumny kraj i zakazenia zamiast trzech (pl, cs, de);
+zysk niewielki w tym przypadki; ale jeżeli krajów jest np. 20 to zamiast 20 kolumn
+ciągle będą dwie...
+
+`pivot_wider(names_from = n, values_from = v) %>%` odwrotność `pivot_longer` zamienia dwie kolumny na wiele kolumn o nazwach określonych w `n`.
+
+```
+ndf <- df pivot_wider(names_from = kraj, values_from = zakazenia)
+```
+
+## Wykresy statystyczne (ggplot2)
+
+Tworzenie wykresów omawiamy w dokumencie **Mini wprowadzenie do ggplot2**
+
+## Inne pakiety
+
+```
+library("ggpubr") ## łącznie wykresów w jeden rysunek
+library("dplyr") ## redukcja danych filter/selecy
+library("tidyr") ## funkcje transformacji danych
+library("scales") ## definiowanie skal
+library("ggthemes") ## wyjaśnione/d
+```
+
+### Wiersz poleceń
+
+Uruchamianie skryptu R 
+z przekazaniem wartości argumentów z wiersza poleceń:
+
+```
+library("optparse")
+
+option_list <- list(
+  make_option(c("-y", "--year"), action="store", default="2017", type="character"),
+  make_option(c("-v", "--verbose"), action="store_true", default=F, type="logical")
+  );
+
+opt_parser <- OptionParser(option_list=option_list);
+opt <- parse_args(opt_parser);
+
+currentYr <- opt$year
+verboseMode <- opt$verbose
+```
+
+## Drukowanie
+
+W najprostszej postaci to wpisanie nazwy obiektu
+
+```
+## wypisze zawartość ramki
+df
+print(df)
+## wypisz z ramki df kolumny 1, 2, 4
+## pierwsza jako napis druga jako liczbę z dwoma cyframi
+## po przecinku, czwartą jako liczbę całkowitą:
+with(df, sprintf ("%s %.2f %s", col1, col2, col4))
+```
+

@@ -1,0 +1,662 @@
+---
+title: "Probability and iterference"
+author: |
+  | Tomasz Przechlewski
+  | email: t.plata-przechlewski@psw.kwidzyn.edu.pl
+  | affiliation: Powiślańska Szkoła Wyższa (Kwidzyn/Poland)
+description: (c) Tomasz Przechlewski / CC-BY license
+date: "2024"
+output:
+  slidy_presentation:
+    theme: lumen
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE }
+knitr::opts_chunk$set(echo = F, warning=F)
+
+library('ggplot2')
+library("dplyr")
+library("tidyr");
+library("tidyverse")
+```
+
+## Probability
+
+The outcome of a **random phenomenon** is determined by chance.
+A **random phenomenon** is described as a situation in which we know **what outcomes can occur**, 
+but whose **precise outcome** is not certainly known. 
+
+Example: flipping coins, rolling dice
+
+The **frequentist interpretation** (frequency) of the probability of an **event**
+occurring is defined as the **long-run fraction** of time that it would
+happen if the **random phenomenon** occurs over and over again under
+the same conditions.
+
+Therefore, probabilities are always between 0 and 1
+
+The frequentist interpretation of the probability is limited in
+application because many interesting random phenomena
+cannot be repeated over and over again, e.g., weather
+
+Bayesian interpretation of Probability: interprets probability as a **subjective degree** of
+belief: For the same event, two separate people could have
+different viewpoints and so assign different probabilities
+
+The **sample space** ($S$) of a random phenomenon is a set of all
+possible outcomes of the random phenomenon.
+
+An **event** is is a subset of the sample space
+
+Example: Flip a coin 3 times and record the side facing up each time.
+
+Sample space S = { HHH, HHT, HTH, HTT, THH, THT, TTH, TTT }
+
+Events: { all heads } = { HHH }
+
+{ get one heads } = { HTT,THT,TTH }
+
+{ get at least two heads } = { HHT,HTH,THH,HHH }
+
+### Intersections, Unions, and Complements
+
+events that are derived from other simpler events
+
+The event that $A$ does not occur is called the **complement of**
+$A$ and is denoted $A^C$
+
+The event that both $A$ and $B$ occur is called the **intersection**
+and is denoted $A ∩ B$
+
+The event that either $A$ or $B$ occurs is called the **union** and is
+denoted $A ∪ B$
+
+Complements, intersections, of events can be represented visually
+using **Venn diagrams**
+
+**Disjoint (mutually exclusive) events** cannot be both true.
+
+**Non-disjoint events** can be both true.
+
+General Addition Rule:
+
+$$P(A ∩ B) = P(A) + P(B) − P(A ∩ B)$$
+
+sum of $A$ plus $B$ minus intersection of A and B
+
+For disjoint events $P(A ∩ B) = 0$, so the above formula simplifies to
+
+$$P(A ∩ B) = P(A) + P(B)$$
+
+Complement Rule:
+
+$$P(A) + P(A^c) = 1$$
+
+**Conditional Probabilities**
+
+Example: A card is drawn from a well-shuffled deck. 
+What is the probability that the card drawn is a King?
+
+$$P(\mathrm{King}) = 4 / 52 = 1/13$$
+
+If the card drawn is known to be a face card (J, Q, K) , what is
+the probability that it is a K? $4/12 =  1/3$
+
+Given two events $A$ and $B$. We denote the probability of event $A$
+happens given that event $B$ is known to happen as
+$P(A|B)$, (read: A given B)
+
+$$P(A|B) = P(A ∩ B)/P(B)$$
+
+if P(A|B) = P(A) then the events A and B
+are said to be independent. (Giving B doesn’t tell us anything about A.)
+
+When A and B are independent
+
+P(A and B) = P(A) × P(B)
+
+More generally:
+
+$$P(A_1 ∩ \cdots ∩ A_k ) = P(A_1 ) × \ldots × P(A_k )$$
+
+if $A_1, \cdots, A_k$ are independent.
+
+## Random variables
+
+The outcome of a **random variable** is determined by chance.
+
+The **probability distribution** determines the probability of the outcomes
+of a random variable.
+
+There are two types of random variables, **discrete** and **continuous**.
+
+A **discrete random variable** consists of integers only.
+
+A **continuous random variable** can take an infinite number of values
+between any two values.
+
+The **probability distribution** for a discrete random variable is called a
+**discrete probability distribution** and is denoted as $P(x) = P(X=x)$.
+
+$0 \leq P(x) \leq 1$ for any $x$
+
+$\sum_x P(x) = 1$
+
+**Cumulative distribution function** (CDF)
+
+$$F(x_0) = P(X \leq x_0)$$
+
+**Expected value** (think mean), $E[X]$, of a discrete
+random variable $X$ is defined as
+
+$$E[X]= \mu = \sum_x x P(x)$$
+
+The expectation of the squared deviations about the mean, $(X - E[X])^2$,
+is called the **variance**, denoted as $D^2[X]$ and given by
+
+$$D^2[X] = \sigma^2 = \mathrm{Var} (X) = E[(X - E[X])^2 ] = E[X^2] - (E[X])^2$$
+
+### Continuous random variable
+
+Exact  values in continuous distributions have a **zero probability**
+Why?
+
+Let assume that the probability of continuous variable $X$ over
+range $[a,b]$ is non-zero, but we can infinitely divide this range. So
+as the number of divisions goes to infinity, the range width goes to zero,
+as well as the probability of
+the variable assuming a value from this (shrinking) interval is **zero**.
+
+The probability distribution for a continuous random variable is called
+a **probability density function** (pdf).
+
+Let $X$ be a continuous random variable, and let $x$ be any number lying in the
+range of values for the random variable. The probability density function,
+$f(x)$, of the random variable is a function with the following properties:
+
+1. $f (x)> 0$ for all values of $x$.
+
+2. The area under the probability density function, $f(x)$, over all values of
+the random variable, X within its range, is equal to 1.0.
+
+3. Let a and b be two possible values of random variable X. The probability
+   that X lies between a and b is:
+
+$$P(a \leq X \leq b) = \int_a^b f(x)dx$$
+
+This equals the area under the probability density function
+between $[a,b]$.
+
+```{r}
+ggplot(data.frame(x = c(-2, 2)), aes(x)) +
+  theme(axis.title.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.ticks.x=element_blank()) +
+  stat_function(fun = dnorm, geom='area', xlim = c(-4,4), 
+                color='blue',
+                fill='white') + 
+  stat_function(fun = dnorm, 
+                xlim = c(-1.5,1.0),
+                fill='lightblue',
+                geom = "area") +
+  annotate('text', x=-1.5, y=-0.02, label='a') +
+  annotate('text', x=+1.0, y=-0.02, label='b') +
+  annotate('text', x=+0.0, y=+0.20, label='P(a≤X≤b)')
+```
+
+Cumulative distribution function (CDF)
+
+The cumulative distribution function, $F(x)$ for a continous random variable
+$X$ expresses the probability that $X$ does note exceed the value of $x$:
+
+$$F(x) = P(X \leq x) = \int_{-\infty}^x f(x) dx$$
+
+**Expected value** (think mean), $E[X]$, of a continuous
+random variable $X$ is defined as
+
+$$E[X]= \int_{-\infty}^\infty x f(x)dx$$
+
+**Variance**, $D^2[X]$, of a continuous
+random variable $X$ is defined as
+
+$$\mathrm{Var}(X) = \sigma^2 = \int_{-\infty}^\infty (x - \mu)^2 f(x)dx$$
+
+### Continuous distribution functions
+
+(next slide)
+
+## Normal DF
+
+A normal distribution is characterized by its mean  $μ$ and its **standard deviation** $σ$; 
+it is denoted by  $N(μ, σ^2)$. The normal distribution has the PDF
+
+$$f(x) = \frac{1}{\sqrt{2\pi \sigma} } \exp^{ -\frac{x -\mu^2}{2\sigma^2} }$$
+
+$N(0, 1)$ is called **standard normal distribution** (denoted by $Z$);
+
+$$Z = \frac{X - \mu}{\sigma} \sim N(0, 1)$$
+
+Note: $X\sim N$ reads as **X is distributed as N**
+
+### R
+
+```
+## dnorm(x, mean=0, sd=1) -- density
+## pnorm(q, mean=0, sd=1) -- distribution function,
+## qnorm(p, mean=0, sd=1) -- quantile function 
+dnorm(x=2)
+pnorm(x=c(-2, 2), mean=1, sd=0.2)
+## rnorm(n, mean=0, sd=1) -- generates random deviates.
+rnorm(1000, mean=5, sd=2)
+
+## compute probabilities [-2,1], [1,2], [0,5,1.5]
+lower <- c( -2, 1, 0.5)
+upper <- c( 1, 2, 1.5)
+lower.p <- pnorm(lower, mean=3, sd=1)
+upper.p <- pnorm(lower, mean=3, sd=1)
+p <- upper.p - lower.p
+
+## generate 5000 random normal numbers
+## data.frame() because of subsequent ggplot
+s <- data.frame(v=rnorm(n=5000, mean=5, sd=2))
+
+library("ggplot2")
+ggplot(s, aes(x=v)) +
+  geom_histogram(binwidth= .1, alpha=.5, fill="steelblue")
+```
+
+## Chi-squared DF
+
+The sum of  $M$  squared **independent standard normal distributed**
+random variables follows a chi-squared (or $\chi$-squared) distribution with  
+$M$ degrees of freedom:
+
+$$Z_1^2 + \ldots + Z_M^2 = \sum_{m=1}^M Z_m^2 \sim \chi^2_M$$
+
+A $χ^2$ distributed random variable with $M$ degrees of freedom has expected 
+value $M$, mode at $M − 2$ (for $M ≥ 2$) and variance $2M$
+
+R: `dchisq`
+
+## t-Student DF
+
+Let $Z$ be a standard normal variate,
+$W$ a $\chi^2_M$ variate and further assume
+that $Z$ and $W$ are independent. Then it holds that
+
+$$\frac{Z}{\sqrt{W/M}} \sim t_M$$
+
+$t$ follows a t-Student distribution with M degrees of freedom.
+
+$t$ distributions are symmetric, bell-shaped and look similar
+to a normal distribution, especially when 
+$M$ is large. 
+
+For a sufficiently large  
+$M$, the  $t_M$ distribution can be approximated by the standard
+normal distribution. This approximation works reasonably well for  
+$M ≥ 30$
+
+
+## F DF
+
+Let $W \sim \chi^2_M$ and $V \sim \chi^2_n$; then
+
+$$\frac{W/M}{V/n} \sim F_{M,n}$$
+
+$F$ follows $F$ distribution with numerator degrees of freedom  
+$M$ and denominator degrees of freedom $n$.
+
+## Central limit theorem
+
+Let $X_1, X_2, \ldots, X_n$ be a set of $n$ identical independent random variables
+(iid) mean $\mu$, and variance $\sigma_2$. Let $\bar X$ is a sample mean.
+As $n$ becomes large, the central limit theorem states that the distribution of
+
+$$Z = \frac{\bar X - \mu}{\frac{\sigma}{\sqrt{n}}} \sim N(0,1)$$
+
+
+## Estimation
+
+**Estimators** are functions of sample data drawn from an unknown population.
+
+**Estimates** are numeric values computed
+by estimators based on the sample data.
+
+**Estimators** are **random variables** because they are functions
+of random data (thus have a certain distribution).
+Estimates are **nonrandom numbers**.
+
+Suppose we are interested in **estimation** of $μ_Y$,
+the mean of some variable $Y$. Due to time/financial constrains
+we are unable to calculate exact value of $μ_Y$.
+
+Instead we can draw a random sample of size $n$ observations and
+**estimate** $\mu_Y$ using the following function (ie. estimator,
+as estimator are functions):
+
+$$\bar Y = \frac{1}{n} \sum_{i=1}^n Y_i$$
+
+which is of course **sample mean**; we are free to use other
+functions of course, namely:
+
+$$Y^f = \frac{Y_\max - Y_{\min}}{2}$$
+
+To be usefull **estimator** have to demonstrate three
+desirable properties:  **unbiasedness**, **consistency** and **efficiency**.
+
+## Estimator properties
+
+### Unbiasedness
+
+If the mean of the sampling distribution of some estimator  
+$\hat μ_Y$ for the population mean  $μ_Y$ equals  $μ_Y$
+
+$$E(\hat μ_Y) = μ_Y$$
+
+the estimator is **unbiased** for $\mu_Y$. The bias of $\hat \mu_Y$
+then is zero.
+If bias is non-zero such an estimator is called **biased**
+
+The above can be generalized for any parameter $p$, not only mean:
+the estimator $\hat p$ of the parameter $p$ is unbiased if $E(\hat p) = p$
+
+
+### Consistency
+
+Variability/spread of the estimator  
+$\hat μ_Y$ decrease as the sample size $n$ grows.
+
+$$P(|\hat μ_Y - μ_Y | > \epsilon ) = 0$$
+
+for any $\epsilon$ (even very small one) and $n \to \infty$. The
+above less formally: the probability that the **estimate** $\hat \mu_Y$
+falls outside a small interval around the true value of $\mu_Y$
+get to zero as sample size $n$ grows.
+
+To **increase accuracy**, the sample size $n$ must be increased
+or **any level of accuracy is a matter of sample size.**
+
+### Efficiency
+
+Finally suppose, we have two estimators $\hat \mu_Y$
+and $\ddot\mu_Y$ and for some given sample size $n$ it holds that
+
+$$E(\hat\mu_Y) = E(\ddot\mu_Y) = \mu_Y$$
+
+but
+
+$$\mathrm{var}(\hat\mu_Y) < \mathrm{var}(\ddot\mu_Y)$$
+
+then we say that $\hat\mu_Y$ is **more efficient** than
+$\ddot\mu_Y$. We prefer of course **more efficient** estimators
+as they **on the average** provide more precise estimates.
+
+## Point and Interval estimation
+
+### Point estimation
+
+In **point estimation**, a single value, known as the **point estimate**,
+is calculated (based on estimator formula) as the best guess for the parameter.
+
+Example: Point estimator of population mean $\mu$ is sample mean $\bar X$
+
+Confidence Interval Estimator
+
+A **confidence interval** estimator for a population parameter is a rule
+for determining (based on sample information) an interval that is
+likely to include the parameter. The corresponding estimate is called
+a confidence interval estimate.
+
+Let $\theta$ be an unknown parameter. Suppose that on the basis of sample
+information, random variables $A$ and $B$ are found such
+that $P ( A < \theta < B ) = 1 - \alpha$,
+where $\alpha$ is any number between 0 and 1.
+If the specific sample values of $A$ and
+$B$ are $a$ and $b$, then the interval from $a$ to $b$ is called
+a $100( 1 - \alpha)$% confidence
+interval of $\theta$.
+The quantity $100 (1 - \alpha)$% is called the confidence level of the
+interval.
+If the population is repeatedly sampled a large number of times, the
+true value of the parameter $\theta$ will be covered by $100( 1 - \alpha)$%
+of intervals calculated this way.
+The confidence interval calculated in this manner is written
+as $a < u < b$, with $100 (1 - \alpha)$% confidence.
+
+### Confidence Intervals for the population mean
+
+Population with unknown mean $\mu$ and known variance $\sigma^2$.
+
+Let $x_1, x_2 ,\ldots, x_n$ be a random sample of $n$ observations from
+a normally distributed
+population with unknown mean $\mu$ and known variance $\sigma^2$.
+Suppose that we want a
+$100(1 - \alpha)$% confidence interval of the population mean
+
+We know that
+
+$$Z = \frac{\bar x - \mu}{\frac{\sigma}{\sqrt{n}}} \sim N(0,1)$$
+
+moreover $z_{\alpha/2}$ is the value from the standard normal
+distribution such that the upper tail probability is $\alpha/2$.
+Thus
+
+\begin{align}
+1 - \alpha = P (-z_{\alpha/2} < Z < z_{\alpha/2}) \nonumber\\
+ = P(-z_{\alpha/2} < \frac{\bar x -\mu}{\frac{\sigma}{\sqrt{n}}} < z_{\alpha/2} ) \nonumber \\
+ = P(-z_{\alpha/2} \frac{\sigma}{\sqrt{n}} < \bar x -\mu < z_{\alpha/2} \frac{\sigma}{\sqrt{n}} ) \nonumber \\
+ = P(\bar x -z_{\alpha/2} \frac{\sigma}{\sqrt{n}} < \mu <
+   \bar x + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} ) \nonumber
+\end{align}
+
+For a 95% confidence level it follows that
+
+$$P(\bar x - 1.96 \frac{\sigma}{\sqrt{n}} < \mu < \bar x + 1.96 \frac{\sigma}{\sqrt{n}} ) = 0.95$$
+
+or, generally for $100(1 - \alpha)$% confidence interval
+
+$$CI = \bar x \pm z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$$
+
+### Population with unknown mean $\mu$ and **unknown** variance $\sigma^2$.
+
+Reminder: Student’s $t$ Distribution
+Given a random sample of $n$ observations, with mean $\bar x$ and standard deviation $s$,
+from a normally distributed population with mean $\mu$, the random variable $t$ follows
+the Student’s $t$ distribution with $n - 1$ degrees of freedom and is given by
+
+$$t= \frac{\bar x - \mu}{s/\sqrt{n}}$$
+
+So, confidence interval for the population mean with unknown
+variance, is given by
+
+$$CI = \bar x \pm t_{n-1, \alpha/2} \frac{s}{\sqrt{n}}$$
+
+## Confidence interval for population proportion
+
+Consider a random experiment that can give
+rise to just two possible mutually exclusive and collectively exhaustive outcomes, which
+for convenience we label “success” and “failure.” Let $P$ denote the probability of success,
+and, the probability of failure $1 - P$. Then, define the random variable $X$ so that $X$
+takes the value $1$ if the outcome of the experiment is success and $0$ otherwise.
+The probability distribution of this random variable is then
+$P(0)= 1 - P$ and $P(1) = P$
+
+This distribution is known as the Bernoulli distribution (discrete).
+
+Expected value of this distribution is $\mu = P$; variance $\sigma^2 = P(1-P)$
+
+Let $\hat p$ be the sample proportion of successes in a random sample from
+a population with proportion of success $P$.
+
+The sampling distribution of $\hat p$ has mean $P$
+
+$$E[\hat p] = P$$
+
+The sampling distribution of $\hat p$ has standard deviation
+
+$$\sigma_{\hat p} = \sqrt{\frac{P(1-P)}{n}}$$
+
+For large $n$ (large means: $nP(1-P)>5$):
+
+$$Z=\frac{\hat p - P}{ \sigma_{\hat p} } \sim N(0,1)$$
+
+For large $n$ (large means: $nP(1-P)>5$):
+
+$$\sqrt{\frac{P(1-P)}{n}} \approx \sqrt{\frac{\hat p(1- \hat p)}{n}}$$
+
+Hence (for large n)
+
+$$Z=\frac{\hat p - P}{ \sqrt{\hat p (1- \hat p)/n }   } \sim N(0,1)$$
+
+This can be used to construct CI
+
+$$CI = \hat p \pm z_{\alpha/2} \sqrt{\hat p (1-\hat p)/n}$$
+
+
+
+## Hypothesis testing
+
+Hypotheses are simple questions that can be answered by ‘yes’ or ‘no’.
+There are two different hypotheses:
+
+The **null hypothesis**, denoted by $H_0$. The test is designed
+to assess the strength of the evidence **against** the null hypothesis
+(NOT strength of the evidence **for** it; it is important)
+
+Usually the $H_0$ claims: no effect, zero difference or similar
+
+The **alternative hypothesis**, denoted by  
+$H_1$,
+the hypothesis that is thought to hold if the null hypothesis is rejected.
+Actually the claim we are trying to prove is $H_1$ not $H_0$
+
+The null hypothesis that the population mean of  
+$Y$ (ie $\mu_Y$) equals the value  $m_Y$ is written as:
+
+$$H_0: \mu_Y = m_Y$$
+
+Often the alternative hypothesis is chosen such
+that it is the most general one:
+
+$$H_1: \mu_Y \not= m_Y$$
+
+This is called a **two-sided alternative** hypothesis.
+
+### Test statistic
+
+The decision is based **test statistic** (statistic is a function
+of a sample, or **any number computed from sample data**).
+
+The test statistic is usually based on a statistic that estimates the **parameter**
+that appears in the hypotheses (or some function of this parameter)
+
+In the case of $\mu_Y$ **test statistic** can be the following:
+
+$$\frac{\bar Y - \mu_Y}{\frac{\sigma}{\sqrt{n}}} \sim Z$$
+
+where $Z\sim N(0,1)$ of course. We do not know $\mu_Y$ but we
+can substitute $m_Y$ and thus compute $Z$-value, denoted as $\hat Z$.
+
+For obvious reason we expect **small** value of $\hat Z$ if $H_0$
+is true (why?); the bigger $\hat Z$, the greater our suspicions
+that $H_0$ is wrong.
+
+So, why we can obtain **big** $\hat Z$? For exactly two reasons:
+
+1. We were unlucky and we obtained a very untypical sample
+
+2. The $H_0$ is untrue
+
+We (as statisticians) always choose 2; sometimes **making an error**.
+The error that we reject $H_0$ because $\hat Z$ is too big, but in fact $H_0$
+is true (and we just have obtained **untypical** sample) is called
+**type one error** (or **type I error**).
+
+We can choose arbitrarily some (small) probability of that **type I error**. This
+probability is called **significance level** and denoted 
+as $\alpha$ (alpha).
+
+More precisely, **significance level**, denoted by 
+$𝛼$, is the probability of rejecting the null hypothesis,
+given that the null hypothesis is true.
+
+We can now compute $Z_C$ such as:
+
+$$P(|\hat Z| > Z_C) = \alpha$$
+
+It is the probability that $\hat Z$ takes value as extreme and more extrame
+than
+$Z_C$; and this probability is equal to **significance level**.
+So if we got $Z_C$, then the observed outcome is within **impossible event margin** (at
+$\alpha$ significance level). This means that we reject $H_0$.
+
+
+```{r}
+ggplot(data.frame(x = c(-2, 2)), aes(x)) +
+  theme(axis.title.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.ticks.x=element_blank()) +
+  stat_function(fun = dnorm, geom='area', xlim = c(-4,4), 
+                color='blue',
+                fill='red') + 
+  stat_function(fun = dnorm, 
+                xlim = c(-1.5,1.5),
+                fill='lightblue',
+                geom = "area") +
+  annotate('text', x=-1.5, y=-0.02, label='-Zc') +
+  annotate('text', x=+1.5, y=-0.02, label='+Zc') +
+  annotate('text', x=+2.5, y=+0.05, label='½ 𝛼') +
+  annotate('text', x=-2.5, y=+0.05, label='½ 𝛼') +
+  geom_vline(aes(xintercept = 0))
+```
+
+
+### p-value
+
+There is simpler rule to reject or fail to reject $H_0$. Instead of
+comparing $\hat Z$ vs $Z_C$ one can compute the probability that $P(|Z| > \hat Z)$
+(depicted dark red at the picture.) If this probability is equal or less
+then $\alpha$ one can reject $H_0$ (why?)
+
+```{r}
+ggplot(data.frame(x = c(-2, 2)), aes(x)) +
+  theme(axis.title.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.ticks.x=element_blank()) +
+  stat_function(fun = dnorm, geom='area', xlim = c(-4,4), 
+                color='blue',
+                fill='darkred') + 
+  stat_function(fun = dnorm, 
+                xlim = c(-2,2),
+                fill='red',
+                geom = "area") +
+  stat_function(fun = dnorm, 
+                xlim = c(-1.5,1.5),
+                fill='lightblue',
+                geom = "area") +
+  ##
+  ##
+  annotate('text', x=-3, y=0.02, label='½ p') +
+  annotate('text', x=+3, y=0.02, label='½ p') +
+  annotate('text', x=+2.5, y=+0.05, label='½ 𝛼') +
+  annotate('text', x=-2.5, y=+0.05, label='½ 𝛼') +
+  ##
+  annotate('text', x=-1.5, y=-0.02, label='-Zc') +
+  annotate('text', x=+1.5, y=-0.02, label='+Zc') +
+  annotate('text', x=-2.2, y=-0.02, label='-Ẑ') +
+  annotate('text', x=+2.2, y=-0.02, label='+Ẑ') +
+  geom_vline(aes(xintercept = 0))
+```
+
+P-value (or p) is routinely printed by all computer programs. If your
+program fails to provide p, change the program.
+
+https://statisticsbyjim.com/hypothesis-testing/failing-reject-null-hypothesis/

@@ -1,0 +1,48 @@
+Statistics
+==========
+
+## w0 R from zero to hero (introduction to R)
+
+## w1 Statistics/Displaying and Describing Data               
+   tablice
+   wykresy
+   parametry
+   
+## w2 (descriptive) Correlation and Linear Regression                       
+
+## w3 Randomness and Probability
+
+## w4 The Normal and Other Continuous Distributions
+
+## w5 Inference for Regression, Advanced Regresssion
+   normality
+   homescedasticity
+   autocorrelation
+
+##w6 Time series                                                        
+
+## w7 
+
+ 
+## c0 R/Rstudio installation and intro
+
+## c1 Advanced R: tidyverse + databases
+
+## c2 = describing data + charts
+
+## c3 = correlation + regression			      
+
+## c4 = Randomness and Probability	      
+
+## c5 = inference				      
+
+## c6 = adnanced Regression
+
+## c7 = project
+
+
+https://bookdown.org/bkrauth/BOOK/
+
+https://bookdown.org/bkrauth/IS4E/
+
+https://www.openintro.org/book/os/

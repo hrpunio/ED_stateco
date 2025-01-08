@@ -1,0 +1,369 @@
+---
+title: "Describing data"
+author: |
+  | Tomasz Przechlewski
+  | email: t.plata-przechlewski@psw.kwidzyn.edu.pl
+  | affiliation: Powiślańska Szkoła Wyższa (Kwidzyn/Poland)
+description: (c) Tomasz Przechlewski / CC-BY license
+date: "2024"
+output:
+  slidy_presentation:
+    theme: lumen
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message=F, warning=F)
+###library('WDI')
+###
+library("knitr")
+library("ggplot2")
+library("tidyverse")
+library("ggpubr")
+library("rstatix")
+library ("lm.beta")
+library ("pROC")
+require("DescTools")
+library("car")
+library("caret")
+library("lmtest")
+```
+
+## Population and Sample
+
+A **population** is the complete set of all items (**individuals**) that interest
+an investigator.
+Population size, $N$, can be very large or even infinite.
+
+A **sample** is a subset of a population with sample size given by $n$.
+
+R: `sample(1:6, 3)`
+
+## Parameter and Statistic
+
+A **parameter** is a numerical measure that describes
+a specific characteristic of a population.
+
+A **statistic** is a numerical measure that describes a specific
+characteristic of a sample.
+
+
+## Descriptive and Inferential Statistics
+
+**Descriptive statistics**: summarise data with graphical and numerical procedures.
+
+**Inferential statistics**:  **infers** properties of a population (values
+of the parameters form example) based on a sample drawn from that population.
+
+## Variables
+
+A **variable** is a specific characteristic (such as age or weight)
+of an individual/object/item.
+
+**Categorical variables** (**Qualitative variables**)
+values are non-numbers but rather labels/symbols.
+Examples: eye color/martial status/gender.
+
+R: `as.factor`, `factor`
+
+**Numerical variables**  (**Quantitative variables**) values
+are numbers (how much/how many):
+
+* discrete (think integer numbers)
+
+* continuous (think real numbers)
+
+## Types of data
+
+* **Cross-sectional**: Data collected at a single point
+  in time across multiple subjects
+
+* Time-series: Data collected sequentially over
+  time for a single subject or entity.
+
+* Panel data: Data that combines elements
+  of both cross-sectional and time-series data,
+  collected over time for multiple subjects.
+
+* **Spatial data**: data 
+that directly or indirectly references a specific geographical area or location.
+
+We will deal with CS-data mainly
+
+## Frequency distribution
+
+A **frequency distribution** of a variable. A tabular summary
+of data (ie **table**) showing the number (frequency) of observations
+in each of several nonoverlapping classes.
+
+Two-column table. One column contains
+values/classes of values, the other column contains frequencies 
+(number of observations for each value/value class)
+
+A **relative frequency distribution** is obtained by dividing
+each frequency by the total number of observations (population/sample size),
+and multiplying the resulting proportion by 100%.
+
+
+**Cumulative frequency distribution** (numerical variable only)
+A tabular summary
+of data (ie **table**) showing the number (frequency) of observations
+which values are less than or equal to the upper limit of each class.
+
+R: `cumsum`
+
+## General construction rules for tables
+
+If the table contains classes (intervals) of values and their corresponding frequencie, the
+following rules have to be obeyed.
+
+The number of intervals is determined through a trial-and-error method to ensure the following:
+
+* The intervals have equal width;
+  (As an exception, it is allowed for the first and last intervals to be open, i.e., to lack 
+  a lower/first or upper/last boundary;)
+
+* There are neither too many nor too few intervals (typically 8–15);
+  (Most of the population is not concentrated in just one or two intervals;
+
+* Usually, round numbers are chosen as interval boundaries, as it would look 
+  odd if the end of an interval were, for example, 1.015 instead of 1.0.
+    
+* There are no intervals with zero frequency;
+
+
+Table 1: Number of Nursing graduates in selected EU members (2018)
+
+```{r}
+members <- read.csv("eu_codes_members.csv", sep = ';', dec = ".",  header=T, na.string="NA" ) %>%
+  add_row(member = 'Other', geo = "OTHER")
+members.codes <- members$geo
+members.big <-c ('DE', 'ES', 'FR', 'IT', 'PL', 'RO', 'NL', 'BE')
+
+g0 <- read.csv("nursing_graduates_UE.csv", sep = ';', dec = ".",  header=T, na.string="NA" )
+
+g1 <- g0 %>%
+  filter (year == 2018 & isco08 == 'OC2221_3221' & unit == 'NR') %>%
+  filter (geo %in%  members.codes) |>
+  filter (geo %in%  members.big) |>
+  mutate ( geo =  as.factor(geo)) |>
+  left_join(members, by='geo') |>
+  select (member, values) %>%
+  mutate (total = sum (values)) %>%
+  mutate (p=values / total * 100) |>
+  select (member, values, p) %>%
+  ## Add total row
+  tibble::add_row(member="Total", values= sum(.$values), p = sum(.$p))
+  
+
+t1 <- kable(g1, col.names = c('country', 'graduates', '%') )
+t1
+```
+
+Source: Eurostat, Health graduates (HLTH_RS_GRD)
+
+Define: population, individual,  variable, and variable type
+
+Table 2: Households in the Kwidzyn county by Number of People in 2021
+
+```{r}
+## https://bdl.stat.gov.pl/bdl/metadane/cechy/4287
+hh <- read.csv('households_census_2021.csv', sep = ',', dec = ".",  header=T, na.string="NA")
+
+hholds0 <- hh |>
+  select (name, h1=val_1652550, h2=val_1652551, h3=val_1652552, h4=val_1652553, h5=val_1652554) |>
+  pivot_longer(cols=c(h1, h2, h3, h4, h5), names_to = 'h', values_to = 'v')
+
+## get data for kwidzyn only
+kw <- hholds0 |> filter (grepl('kwidzyński', name)) |>
+  select(h, v) |>
+  ## compute relative freqency
+  ## compute total as a separate column
+  mutate (t= sum(v)) |>
+  mutate (p = v/t * 100) |>
+  select(h, v, p) %>%
+  # h is a factor anyway but we rename it's labels
+  mutate (h = factor(h, labels = c('1', '2', '3', '4', '5 and more'))) %>%
+  # Add cumulative fd:
+  mutate (cum = cumsum(v)) %>%
+  # Add total row
+  tibble::add_row(h="Total", v= sum(.$v), p= sum(.$p), cum = NA)
+
+## print finally
+kable(kw, digits=2, col.names = c('Persons', 'Households', '%', 'Cum'), booktabs = TRUE)
+```
+
+Source: Local Data Bank of Statistics Poland (GUS), Subgroup P4287/Households by Number of People
+
+Define: population, individual, variable, and variable type
+
+Table 3: Countries of the World by Total Fertility Rate (2018)
+
+```{r}
+## Owid data
+dA <- read.csv("fertility_rate_2003_2018.csv", sep = ';', header=T, na.string="NA");
+d2018 <- dA %>% filter(yr==2018)
+
+breaks12 <- c(seq(1, 6.0, by=.5), 10)
+
+d2018 <- d2018 |>
+  ##
+  ## recode outliers to some resonable values (6.4)
+  mutate(frateClass = cut(frate, breaks=breaks12,
+                          labels=c('1,0--1,5]', '1,5--2,0]',
+                                   '2,0--2,5]', '2,5--3,0]', 
+                                   '3,0--3,5]', '3,5--4,0]',
+                                   '4,0--4,5]', '4,5--5,0]',
+                                   '5,0--5,5]', '5,5--6,0]',
+                                   '6,0 and more'
+                          ) ))
+
+d2018s <- d2018 %>% group_by(frateClass) |> summarise(n=n()) |>
+  mutate (total = sum(n)) |> mutate (p = n/total * 100) |>
+  select (frateClass, n, p) %>%
+  tibble::add_row(frateClass="Total", n= sum(.$n), p= sum(.$p))
+
+  t2 <- kable(d2018s, col.names = c('Fertility rate', 'Countries', '%') )
+t2
+```
+
+Define: population, individual, variable, and variable type
+
+or
+
+```{r}
+d2018.2 <- d2018 |> mutate(frateClass = cut(frate, breaks=12 ))
+
+d2018s.2 <- d2018.2 %>% group_by(frateClass) |> summarise(n=n()) |>
+  mutate (total = sum(n)) |> mutate (p = n/total * 100 ) |>
+  select (frateClass, n, p) %>%
+  tibble::add_row(frateClass="Total", n= sum(.$n), p= sum(.$p))
+
+  t2.2 <- kable(d2018s.2, col.names = c('Fertility rate', 'Countries', '%') )
+t2.2
+```
+
+better?
+
+(we should narrow the class and lower the last class lower limit?)
+
+
+## Contingency tables
+
+A contingency table contains frequencies for combinations
+of two categorical variables.
+
+Contingency tables classify outcomes for one variable in rows and the
+other in columns. The values at the row and column intersections are
+frequencies for each unique combination of the two variables.
+
+https://statisticsbyjim.com/basics/two-way-table/
+https://statisticsbyjim.com/basics/contingency-table/
+
+
+detail later
+
+## Time plots
+
+A **line chart** is used to plot a time series.
+
+## Describe distributions with numbers
+
+* Center (typical value): mean, median, mode
+
+* Spread (variability): range, variance, standard deviation, IQR
+
+* Outliers
+
+* Shape: modality + symmetry
+
+https://bookdown.org/frederick_peck/um_stat_216_textbook_-_fall_2022/the-mean-and-standard-deviation.html
+
+## Center
+
+**Mean**: Sum of the data
+values divided by the number of observations. If the $n$ observations
+are $x_1$, $x_2$, ... $x_n$, then their mean is
+
+$$\bar x = \frac{1}{n} = \sum x_i$$
+
+
+**Median**: Midpoint of the distribution, the number that half of the
+observations are smaller and the other half are larger.
+The median is the **middle observation** of a set of observations that are
+arranged in increasing (or decreasing) order.
+
+If the sample size, $n$, is an odd
+number, the median is $(n +1)/2$th observation. If the sample size, $n$, is an
+even number, the median is the average of the two middle observations, namely $n/2$th and $(n+1)/2$th.
+
+**Mode**: if one exists, is the most frequently occurring value.
+A distribution with one mode is called unimodal; with two modes, it is called bimodal;
+and with more than two modes, the distribution is said to be multimodal. The
+mode is most commonly used with **categorical data**.
+
+**Percentiles and Quartiles**.
+
+The Pth percentile is a value such that approximately P% of the
+observations are at or below that number. Percentiles separate large ordered data sets
+into 100ths. The 50th percentile is the median.
+
+**Quartiles** are values that separate population/sample into four quarters.
+The first quartile, $Q_1$, separates approximately the
+smallest 25% of the data from the remainder of the data. The second quartile,
+$Q_2$, is the median. The third quartile, $Q_3$, separates approximately the
+smallest 75% of the data from the remaining largest 25% of the data.
+
+To find percentiles and quartiles, data must first be arranged in order from the
+smallest to the largest values.
+
+**Five-Number Summary**: minimum $Q_1$ median $Q_3$ maximum
+
+
+## Variability (spread)
+
+**Range** is the difference between the largest and smallest observations.
+
+**Variance**: There are slightly distinct formulas for **population** and **sample** variances.
+The **population variance of a set of observations is the averge of the
+**squares** of the deviations
+of the observations from their mean ($\bar x$ denotes population mean).
+
+$$\sigma^2 = \frac{1}{N}\sum (x_i - \bar x)^2$$
+
+while **sample** variance is the sum of the squared differences between each
+observation and the sample mean divided by the sample size, $n$,
+minus 1 ($\bar x$ denotes sample mean):
+
+$$s^2 = \frac{1}{n-1}\sum (x_i - \bar x)^2$$
+Note: function `var` (R) computes always **sample variance**.
+
+**Standard deviation** which is the square root of
+variance, restores the data to their original measurement unit.
+
+$s = \sqrt{s^2}$ or $\sigma = \sqrt{\sigma^2}$
+
+**Interquartile Range** (IQR) measures the spread in the middle 50% of the
+data; it is the difference between the observation at $Q_3$, the third quartile
+and the observation at $Q_1$ , the first quartile.
+percentile). Thus
+
+$$\textrm{IQR} = Q_3 - Q_1$$
+
+## Example
+
+```{r, echo=TRUE}
+population1 <- rnorm(10000, mean=5, sd=2)
+sample1 <- sample(population1, 30)
+
+pop.mean <- mean(population1)
+sample.mean <- mean(sample1)
+pop.mean
+sample.mean
+
+## draw histogram
+pop <- as.data.frame(population1)
+p1 <- pop |> ggplot(aes(x = population1)) +
+  geom_histogram(binwidth = .5, color='forestgreen', fill=default_cyan) 
+p1
+```

@@ -1,0 +1,404 @@
+name;symbol;yr;frate
+Afghanistan;AFG;2003;7.14
+Afghanistan;AFG;2018;4.33
+Albania;ALB;2003;1.9
+Albania;ALB;2018;1.71
+Algeria;DZA;2003;2.41
+Algeria;DZA;2018;2.64
+Angola;AGO;2003;6.54
+Angola;AGO;2018;5.55
+Antigua and Barbuda;ATG;2003;2.27
+Antigua and Barbuda;ATG;2018;2.03
+Argentina;ARG;2003;2.5
+Argentina;ARG;2018;2.26
+Armenia;ARM;2003;1.4
+Armenia;ARM;2018;1.6
+Aruba;ABW;2003;1.81
+Aruba;ABW;2018;1.8
+Australia;AUS;2003;1.79
+Australia;AUS;2018;1.83
+Austria;AUT;2003;1.38
+Austria;AUT;2018;1.52
+Azerbaijan;AZE;2003;1.87
+Azerbaijan;AZE;2018;2.04
+Bahamas;BHS;2003;1.89
+Bahamas;BHS;2018;1.75
+Bahrain;BHR;2003;2.6
+Bahrain;BHR;2018;1.99
+Bangladesh;BGD;2003;2.8
+Bangladesh;BGD;2018;2.05
+Barbados;BRB;2003;1.75
+Barbados;BRB;2018;1.8
+Belarus;BLR;2003;1.26
+Belarus;BLR;2018;1.72
+Belgium;BEL;2003;1.7
+Belgium;BEL;2018;1.8
+Belize;BLZ;2003;3.28
+Belize;BLZ;2018;2.44
+Benin;BEN;2003;5.75
+Benin;BEN;2018;4.84
+Bhutan;BTN;2003;3.09
+Bhutan;BTN;2018;1.99
+Bolivia;BOL;2003;3.77
+Bolivia;BOL;2018;2.8
+Bosnia and Herzegovina;BIH;2003;1.33
+Bosnia and Herzegovina;BIH;2018;1.39
+Botswana;BWA;2003;3.11
+Botswana;BWA;2018;2.64
+Brazil;BRA;2003;2.1
+Brazil;BRA;2018;1.7
+Brunei;BRN;2003;1.95
+Brunei;BRN;2018;1.85
+Bulgaria;BGR;2003;1.26
+Bulgaria;BGR;2018;1.59
+Burkina Faso;BFA;2003;6.4
+Burkina Faso;BFA;2018;5.19
+Burundi;BDI;2003;6.82
+Burundi;BDI;2018;5.53
+Cambodia;KHM;2003;3.41
+Cambodia;KHM;2018;2.5
+Cameroon;CMR;2003;5.43
+Cameroon;CMR;2018;4.57
+Canada;CAN;2003;1.53
+Canada;CAN;2018;1.56
+Cape Verde;CPV;2003;3.36
+Cape Verde;CPV;2018;2.27
+Central African Republic;CAF;2003;5.44
+Central African Republic;CAF;2018;4.72
+Chad;TCD;2003;7.21
+Chad;TCD;2018;5.75
+Channel Islands;OWID_CIS;2003;1.41
+Channel Islands;OWID_CIS;2018;1.49
+Chile;CHL;2003;2.02
+Chile;CHL;2018;1.76
+China;CHN;2003;1.54
+China;CHN;2018;1.64
+Colombia;COL;2003;2.27
+Colombia;COL;2018;1.82
+Comoros;COM;2003;5.28
+Comoros;COM;2018;4.2
+Congo;COG;2003;5.07
+Congo;COG;2018;4.54
+Costa Rica;CRI;2003;2.16
+Costa Rica;CRI;2018;1.75
+Cote d'Ivoire;CIV;2003;5.52
+Cote d'Ivoire;CIV;2018;4.78
+Croatia;HRV;2003;1.38
+Croatia;HRV;2018;1.45
+Cuba;CUB;2003;1.58
+Cuba;CUB;2018;1.72
+Cyprus;CYP;2003;1.58
+Cyprus;CYP;2018;1.34
+Czech Republic;CZE;2003;1.21
+Czech Republic;CZE;2018;1.57
+Democratic Republic of Congo;COD;2003;6.81
+Democratic Republic of Congo;COD;2018;5.92
+Denmark;DNK;2003;1.76
+Denmark;DNK;2018;1.76
+Djibouti;DJI;2003;4.12
+Djibouti;DJI;2018;2.73
+Dominican Republic;DOM;2003;2.81
+Dominican Republic;DOM;2018;2.36
+Ecuador;ECU;2003;2.87
+Ecuador;ECU;2018;2.43
+Egypt;EGY;2003;3.09
+Egypt;EGY;2018;3.15
+El Salvador;SLV;2003;2.69
+El Salvador;SLV;2018;2.04
+Equatorial Guinea;GNQ;2003;5.68
+Equatorial Guinea;GNQ;2018;4.51
+Eritrea;ERI;2003;5.07
+Eritrea;ERI;2018;3.99
+Estonia;EST;2003;1.43
+Estonia;EST;2018;1.66
+Ethiopia;ETH;2003;6.04
+Ethiopia;ETH;2018;3.97
+Fiji;FJI;2003;2.95
+Fiji;FJI;2018;2.47
+Finland;FIN;2003;1.76
+Finland;FIN;2018;1.78
+France;FRA;2003;1.89
+France;FRA;2018;1.97
+French Guiana;GUF;2003;3.72
+French Guiana;GUF;2018;3.25
+French Polynesia;PYF;2003;2.33
+French Polynesia;PYF;2018;1.98
+Gabon;GAB;2003;4.33
+Gabon;GAB;2018;3.66
+Gambia;GMB;2003;5.88
+Gambia;GMB;2018;5.29
+Georgia;GEO;2003;1.6
+Georgia;GEO;2018;1.98
+Germany;DEU;2003;1.35
+Germany;DEU;2018;1.48
+Ghana;GHA;2003;4.61
+Ghana;GHA;2018;3.87
+Greece;GRC;2003;1.36
+Greece;GRC;2018;1.3
+Greenland;GRL;2003;2.37
+Grenada;GRD;2003;2.41
+Grenada;GRD;2018;2.06
+Guadeloupe;GLP;2003;2.08
+Guadeloupe;GLP;2018;1.92
+Guam;GUM;2003;2.72
+Guam;GUM;2018;2.31
+Guatemala;GTM;2003;4.25
+Guatemala;GTM;2018;2.87
+Guinea;GIN;2003;5.88
+Guinea;GIN;2018;4.7
+Guinea-Bissau;GNB;2003;5.56
+Guinea-Bissau;GNB;2018;4.48
+Guyana;GUY;2003;2.92
+Guyana;GUY;2018;2.46
+Haiti;HTI;2003;3.96
+Haiti;HTI;2018;2.82
+Honduras;HND;2003;3.69
+Honduras;HND;2018;2.39
+Hong Kong;HKG;2003;0.95
+Hong Kong;HKG;2018;1.34
+Hungary;HUN;2003;1.29
+Hungary;HUN;2018;1.4
+Iceland;ISL;2003;2.02
+Iceland;ISL;2018;1.91
+India;IND;2003;3.11
+India;IND;2018;2.28
+Indonesia;IDN;2003;2.51
+Indonesia;IDN;2018;2.31
+Iran;IRN;2003;1.93
+Iran;IRN;2018;1.61
+Iraq;IRQ;2003;4.64
+Iraq;IRQ;2018;4.25
+Ireland;IRL;2003;1.97
+Ireland;IRL;2018;1.98
+Israel;ISR;2003;2.91
+Israel;ISR;2018;2.92
+Italy;ITA;2003;1.31
+Italy;ITA;2018;1.5
+Jamaica;JAM;2003;2.44
+Jamaica;JAM;2018;1.98
+Japan;JPN;2003;1.3
+Japan;JPN;2018;1.48
+Jordan;JOR;2003;3.83
+Jordan;JOR;2018;3.24
+Kazakhstan;KAZ;2003;2.07
+Kazakhstan;KAZ;2018;2.57
+Kenya;KEN;2003;4.98
+Kenya;KEN;2018;3.74
+Kiribati;KIR;2003;3.95
+Kiribati;KIR;2018;3.57
+Kuwait;KWT;2003;2.62
+Kuwait;KWT;2018;1.95
+Kyrgyzstan;KGZ;2003;2.52
+Kyrgyzstan;KGZ;2018;2.91
+Laos;LAO;2003;3.85
+Laos;LAO;2018;2.59
+Latvia;LVA;2003;1.3
+Latvia;LVA;2018;1.57
+Lebanon;LBN;2003;1.94
+Lebanon;LBN;2018;1.71
+Lesotho;LSO;2003;3.74
+Lesotho;LSO;2018;3
+Liberia;LBR;2003;5.64
+Liberia;LBR;2018;4.45
+Libya;LBY;2003;2.6
+Libya;LBY;2018;2.2
+Lithuania;LTU;2003;1.29
+Lithuania;LTU;2018;1.67
+Luxembourg;LUX;2003;1.66
+Luxembourg;LUX;2018;1.59
+Macao;MAC;2003;0.83
+Macao;MAC;2018;1.36
+Macedonia;MKD;2003;1.61
+Macedonia;MKD;2018;1.55
+Madagascar;MDG;2003;5.24
+Madagascar;MDG;2018;4.08
+Malawi;MWI;2003;6
+Malawi;MWI;2018;4.44
+Malaysia;MYS;2003;2.44
+Malaysia;MYS;2018;2
+Maldives;MDV;2003;2.51
+Maldives;MDV;2018;2.01
+Mali;MLI;2003;6.84
+Mali;MLI;2018;5.88
+Malta;MLT;2003;1.47
+Malta;MLT;2018;1.48
+Martinique;MTQ;2003;1.95
+Martinique;MTQ;2018;1.88
+Mauritania;MRT;2003;5.28
+Mauritania;MRT;2018;4.55
+Mauritius;MUS;2003;1.9
+Mauritius;MUS;2018;1.43
+Mayotte;MYT;2003;4.8
+Mayotte;MYT;2018;3.69
+Mexico;MEX;2003;2.58
+Mexico;MEX;2018;2.12
+Micronesia;FSM;2003;4.01
+Micronesia;FSM;2018;3.05
+Moldova;MDA;2003;1.25
+Moldova;MDA;2018;1.23
+Mongolia;MNG;2003;2.08
+Mongolia;MNG;2018;2.67
+Montenegro;MNE;2003;1.85
+Montenegro;MNE;2018;1.65
+Morocco;MAR;2003;2.64
+Morocco;MAR;2018;2.42
+Mozambique;MOZ;2003;5.78
+Mozambique;MOZ;2018;5.12
+Myanmar;MMR;2003;2.83
+Myanmar;MMR;2018;2.17
+Namibia;NAM;2003;3.77
+Namibia;NAM;2018;3.3
+Nepal;NPL;2003;3.58
+Nepal;NPL;2018;2.05
+Netherlands;NLD;2003;1.75
+Netherlands;NLD;2018;1.75
+Netherlands Antilles;ANT;2003;2.07
+Netherlands Antilles;ANT;2018;1.84
+New Caledonia;NCL;2003;2.31
+New Caledonia;NCL;2018;2.13
+New Zealand;NZL;2003;1.98
+New Zealand;NZL;2018;1.97
+Nicaragua;NIC;2003;2.81
+Nicaragua;NIC;2018;2.14
+Niger;NER;2003;7.64
+Niger;NER;2018;7.13
+Nigeria;NGA;2003;6.04
+Nigeria;NGA;2018;5.39
+North Korea;PRK;2003;2
+North Korea;PRK;2018;1.89
+Norway;NOR;2003;1.8
+Norway;NOR;2018;1.83
+Oman;OMN;2003;3.14
+Oman;OMN;2018;2.52
+Pakistan;PAK;2003;4.21
+Pakistan;PAK;2018;3.35
+Palestine;PSE;2003;4.97
+Palestine;PSE;2018;3.88
+Panama;PAN;2003;2.68
+Panama;PAN;2018;2.46
+Papua New Guinea;PNG;2003;4.37
+Papua New Guinea;PNG;2018;3.56
+Paraguay;PRY;2003;3.21
+Paraguay;PRY;2018;2.43
+Peru;PER;2003;2.77
+Peru;PER;2018;2.34
+Philippines;PHL;2003;3.65
+Philippines;PHL;2018;2.86
+Poland;POL;2003;1.28
+Poland;POL;2018;1.29
+Portugal;PRT;2003;1.44
+Portugal;PRT;2018;1.24
+Puerto Rico;PRI;2003;1.84
+Puerto Rico;PRI;2018;1.46
+Qatar;QAT;2003;2.86
+Qatar;QAT;2018;1.87
+Reunion;REU;2003;2.43
+Reunion;REU;2018;2.27
+Romania;ROU;2003;1.33
+Romania;ROU;2018;1.54
+Russia;RUS;2003;1.33
+Russia;RUS;2018;1.76
+Rwanda;RWA;2003;5.35
+Rwanda;RWA;2018;3.74
+Saint Lucia;LCA;2003;1.83
+Saint Lucia;LCA;2018;1.44
+Saint Vincent and the Grenadines;VCT;2003;2.23
+Saint Vincent and the Grenadines;VCT;2018;1.89
+Samoa;WSM;2003;4.45
+Samoa;WSM;2018;3.88
+Sao Tome and Principe;STP;2003;5.12
+Sao Tome and Principe;STP;2018;4.33
+Saudi Arabia;SAU;2003;3.6
+Saudi Arabia;SAU;2018;2.45
+Senegal;SEN;2003;5.25
+Senegal;SEN;2018;4.62
+Serbia;SRB;2003;1.69
+Serbia;SRB;2018;1.62
+Seychelles;SYC;2003;2.2
+Seychelles;SYC;2018;2.25
+Sierra Leone;SLE;2003;6.07
+Sierra Leone;SLE;2018;4.26
+Singapore;SGP;2003;1.27
+Singapore;SGP;2018;1.26
+Slovak Republic;SVK;2003;1.22
+Slovak Republic;SVK;2018;1.47
+Slovenia;SVN;2003;1.24
+Slovenia;SVN;2018;1.65
+Solomon Islands;SLB;2003;4.58
+Solomon Islands;SLB;2018;3.74
+Somalia;SOM;2003;7.45
+Somalia;SOM;2018;6.08
+South Africa;ZAF;2003;2.73
+South Africa;ZAF;2018;2.4
+South Korea;KOR;2003;1.21
+South Korea;KOR;2018;1.33
+South Sudan;SSD;2003;5.97
+South Sudan;SSD;2018;4.7
+Spain;ESP;2003;1.3
+Spain;ESP;2018;1.39
+Sri Lanka;LKA;2003;2.27
+Sri Lanka;LKA;2018;2.02
+Sudan;SDN;2003;5.27
+Sudan;SDN;2018;4.41
+Suriname;SUR;2003;2.75
+Suriname;SUR;2018;2.32
+Swaziland;SWZ;2003;3.98
+Swaziland;SWZ;2018;2.98
+Sweden;SWE;2003;1.73
+Sweden;SWE;2018;1.91
+Switzerland;CHE;2003;1.42
+Switzerland;CHE;2018;1.55
+Syria;SYR;2003;3.74
+Syria;SYR;2018;2.82
+Taiwan;TWN;2003;1.24
+Taiwan;TWN;2018;1.22
+Tajikistan;TJK;2003;3.59
+Tajikistan;TJK;2018;3.27
+Tanzania;TZA;2003;5.66
+Tanzania;TZA;2018;4.89
+Thailand;THA;2003;1.6
+Thailand;THA;2018;1.45
+Timor-Leste;TLS;2003;6.97
+Timor-Leste;TLS;2018;5.28
+Togo;TGO;2003;5.28
+Togo;TGO;2018;4.32
+Tonga;TON;2003;4.2
+Tonga;TON;2018;3.56
+Trinidad and Tobago;TTO;2003;1.75
+Trinidad and Tobago;TTO;2018;1.73
+Tunisia;TUN;2003;2.02
+Tunisia;TUN;2018;2.15
+Turkey;TUR;2003;2.35
+Turkey;TUR;2018;2.02
+Turkmenistan;TKM;2003;2.7
+Turkmenistan;TKM;2018;2.79
+Uganda;UGA;2003;6.72
+Uganda;UGA;2018;5.41
+Ukraine;UKR;2003;1.17
+Ukraine;UKR;2018;1.56
+United Arab Emirates;ARE;2003;2.33
+United Arab Emirates;ARE;2018;1.72
+United Kingdom;GBR;2003;1.69
+United Kingdom;GBR;2018;1.87
+United States;USA;2003;2.05
+United States;USA;2018;1.9
+United States Virgin Islands;VIR;2003;2.18
+United States Virgin Islands;VIR;2018;2.18
+Uruguay;URY;2003;2.19
+Uruguay;URY;2018;1.97
+Uzbekistan;UZB;2003;2.51
+Uzbekistan;UZB;2018;2.23
+Vanuatu;VUT;2003;4.06
+Vanuatu;VUT;2018;3.2
+Venezuela;VEN;2003;2.7
+Venezuela;VEN;2018;2.27
+Vietnam;VNM;2003;1.9
+Vietnam;VNM;2018;1.95
+Western Sahara;ESH;2003;2.8
+Western Sahara;ESH;2018;2.41
+Yemen;YEM;2003;5.78
+Yemen;YEM;2018;3.79
+Zambia;ZMB;2003;5.92
+Zambia;ZMB;2018;4.87
+Zimbabwe;ZWE;2003;3.99
+Zimbabwe;ZWE;2018;3.61
